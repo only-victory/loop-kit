@@ -10,7 +10,7 @@
       "name": "loop-kit",
       "source": ".",
       "description": "검증 게이트가 내장된 스킬 모음 (humanize·slide·report 등). 의존성 제로, Claude만으로 동작.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": { "name": "only-victory" }
     }
   ]
