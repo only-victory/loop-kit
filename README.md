@@ -35,6 +35,7 @@
 | `/loop-kit:humanize` | 한국어 텍스트의 AI 슬롭 제거 | 금지 패턴 grep → 0건이어야 통과 |
 | `/loop-kit:slide` | 프로젝터용 HTML 슬라이드 덱 | 구두점·외부 의존성·시각 모티프 린트 |
 | `/loop-kit:report` | 단일 HTML 보고서 | 외부 의존성 0개 자체완결성 검사 |
+| `/loop-kit:promo` | 교육 프로그램 홍보 웹페이지 | 제목·CTA·footer·구두점 검사 |
 
 > 현재 `v0.1.0` : 킬러 스킬 3종(humanize·slide·report) 골든 템플릿 완성.
 

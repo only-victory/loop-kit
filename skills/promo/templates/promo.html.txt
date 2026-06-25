@@ -1,0 +1,494 @@
+<!doctype html>
+<!-- loop-kit / promo 완성형 베이스 v1 : FF Academy 교육 홍보 페이지
+     확장자 .txt (산출물 .html과 구분). 산출 시 .html로 저장.
+     ★ 테마 교체 : reference/themes.md의 :root 블록으로 통째 교체
+     ★ 섹션 조합 : reference/sections.md 참조
+     ★ 필수 : header / meta-chips / info-table / curriculum / apply-box / footer -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>프로그램명 | FF Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+/* ── 변수 (다크 골드 기본 : themes.md의 ① 블록으로 통째 교체) ── */
+:root{
+  --bg:#0a0b0d; --surface:#15171c; --surface-2:#1b1e25;
+  --border:#2a2d35; --border-soft:#20232a;
+  --text-hi:#f3f2ed; --text-md:#d5d7df; --text-lo:#9fa1a8;
+  --accent:#dfb839; --accent-bright:#e8c75a;
+  --accent-dim:rgba(223,184,57,.12); --accent-border:rgba(223,184,57,.25);
+  --teal:#4abf9b; --teal-dim:rgba(74,191,155,.12);
+  --danger:#e05c5c; --danger-dim:rgba(224,92,92,.10);
+  --sans:'Pretendard',-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --max-w:720px; --section-gap:48px;
+}
+
+/* ── Reset ── */
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);font-size:15px;line-height:1.65;color:var(--text-md);background:var(--bg);word-break:keep-all;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+em{font-style:normal;}
+strong{font-weight:700;color:var(--text-hi);}
+
+/* ── Ticker (선택) ── */
+.ticker-wrap{overflow:hidden;background:var(--surface-2);border-bottom:1px solid var(--border-soft);padding:10px 0;}
+.ticker-track{display:flex;gap:32px;white-space:nowrap;animation:ticker 40s linear infinite;}
+.ticker-item{font-family:var(--mono);font-size:12px;color:var(--text-lo);letter-spacing:.08em;}
+.ticker-item .ti-code{color:var(--accent);margin-right:6px;}
+@keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* ── Header / Hero ── */
+.header{padding:64px 24px 40px;background:var(--bg);}
+.header-inner{max-width:var(--max-w);margin:0 auto;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;}
+.eyebrow::before{content:'';display:inline-block;width:16px;height:2px;background:var(--accent);}
+.header-title{font-size:clamp(28px,4vw,42px);font-weight:800;color:var(--text-hi);line-height:1.18;letter-spacing:-.02em;margin-bottom:16px;}
+.header-title em{color:var(--accent);}
+.header-sub{font-size:16px;color:var(--text-md);line-height:1.7;margin-bottom:32px;}
+.header-cta{margin-bottom:32px;}
+.header-divider{height:1px;background:var(--border);}
+
+/* ── Meta chips ── */
+.meta-wrap{background:var(--surface);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border-soft);padding:20px 24px;}
+.meta-row{max-width:var(--max-w);margin:0 auto;display:flex;flex-wrap:wrap;gap:10px;}
+.chip{display:flex;flex-direction:column;gap:3px;padding:10px 16px;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);}
+.chip-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-lo);}
+.chip-val{font-size:14px;font-weight:600;color:var(--text-hi);}
+
+/* ── Brief (도입 설명) ── */
+.brief-wrap{max-width:var(--max-w);margin:32px auto 0;padding:0 24px;}
+.brief{border-left:2px solid var(--accent);padding:16px 20px;background:var(--accent-dim);border-radius:0 8px 8px 0;font-size:15px;color:var(--text-md);line-height:1.7;}
+
+/* ── Notice (공지 박스) ── */
+.notice-wrap{max-width:var(--max-w);margin:24px auto 0;padding:0 24px;}
+.notice{padding:14px 20px;border-left:3px solid var(--accent);border-radius:0 8px 8px 0;background:var(--accent-dim);font-size:14px;color:var(--text-md);line-height:1.6;}
+.notice strong{color:var(--accent);}
+
+/* ── Stats bar (수치 강조) ── */
+.stats-bar{background:var(--accent);padding:20px 24px;margin-top:24px;}
+.stats-inner{max-width:var(--max-w);margin:0 auto;display:flex;justify-content:space-around;flex-wrap:wrap;gap:16px;}
+.stat-item{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;}
+.stat-num{font-family:var(--mono);font-size:26px;font-weight:800;color:#1a1505;line-height:1;}
+.stat-label{font-size:12px;font-weight:600;color:rgba(26,21,5,.7);}
+
+/* ── Main 컨테이너 ── */
+.main{max-width:var(--max-w);margin:0 auto;padding:var(--section-gap) 24px;}
+.section{margin-bottom:var(--section-gap);}
+.section:last-child{margin-bottom:0;}
+
+/* ── Section head ── */
+.section-head{display:flex;align-items:baseline;gap:14px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border-soft);}
+.section-num{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.14em;}
+.section-title{font-size:18px;font-weight:700;color:var(--text-hi);}
+.section-note{font-size:13px;color:var(--text-lo);margin-left:auto;}
+
+/* ── Info table (교육 개요) ── */
+.info-table{width:100%;border-collapse:collapse;}
+.info-table tr{border-bottom:1px solid var(--border-soft);}
+.info-table tr:last-child{border-bottom:none;}
+.info-table th{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-lo);padding:14px 20px 14px 0;width:110px;vertical-align:top;}
+.info-table td{font-size:14px;color:var(--text-md);padding:14px 0;line-height:1.6;}
+.info-table td strong{color:var(--text-hi);font-weight:600;}
+
+/* ── Recommend grid (추천 대상) ── */
+.recommend-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.rec-item{padding:16px 18px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:14px;color:var(--text-md);line-height:1.6;display:flex;align-items:flex-start;gap:10px;}
+.rec-item::before{content:'→';color:var(--accent);font-weight:700;flex-shrink:0;margin-top:1px;}
+
+/* ── Goal list (교육 목표) ── */
+.goal-list{display:flex;flex-direction:column;gap:10px;}
+.goal-item{display:flex;align-items:flex-start;gap:16px;padding:16px 20px;background:var(--surface);border:1px solid var(--border);border-radius:8px;}
+.goal-num{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.14em;flex-shrink:0;padding-top:3px;}
+.goal-text{font-size:15px;color:var(--text-md);line-height:1.6;}
+.goal-text strong{color:var(--text-hi);}
+
+/* ── How-block (운영 방식) ── */
+.how-block{border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.how-row{display:flex;border-bottom:1px solid var(--border-soft);}
+.how-row:last-child{border-bottom:none;}
+.how-label{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;background:var(--surface-2);padding:14px 16px;min-width:120px;flex-shrink:0;display:flex;align-items:center;}
+.how-content{padding:14px 18px;font-size:14px;color:var(--text-md);line-height:1.6;flex:1;}
+
+/* ── Curriculum : Timeline ── */
+.timeline{position:relative;padding-left:32px;}
+.timeline::before{content:'';position:absolute;left:6px;top:8px;bottom:8px;width:1px;background:var(--border);}
+.tl-item{position:relative;padding-bottom:28px;}
+.tl-item:last-child{padding-bottom:0;}
+.tl-dot{position:absolute;left:-26px;top:4px;width:13px;height:13px;border-radius:50%;border:2px solid var(--border);background:var(--surface-2);}
+.tl-dot.live{background:var(--accent);border-color:var(--accent-bright);box-shadow:0 0 0 3px var(--accent-dim);}
+.tl-dot.self{background:var(--teal);border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-dim);}
+.tl-head{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap;}
+.tl-num{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.1em;}
+.tl-title{font-size:15px;font-weight:700;color:var(--text-hi);}
+.tl-date{margin-left:auto;font-size:12px;color:var(--text-lo);font-family:var(--mono);}
+.tl-body{font-size:14px;color:var(--text-md);line-height:1.6;margin-bottom:8px;}
+.tl-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.tag{display:inline-flex;align-items:center;padding:3px 9px;border-radius:4px;font-size:12px;font-weight:600;}
+.tag.live{background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-border);}
+.tag.self{background:var(--teal-dim);color:var(--teal);border:1px solid rgba(74,191,155,.25);}
+
+/* ── Curriculum : Grid cards ── */
+.curri-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.curri-card{padding:20px;border:1px solid var(--border);border-top:2px solid var(--accent);border-radius:0 0 8px 8px;background:var(--surface);}
+.curri-card .week{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.14em;margin-bottom:10px;}
+.curri-card .week-title{font-size:15px;font-weight:700;color:var(--text-hi);margin-bottom:8px;}
+.curri-card ul{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.curri-card ul li{font-size:13px;color:var(--text-md);line-height:1.5;display:flex;gap:8px;}
+.curri-card ul li::before{content:'·';color:var(--accent);flex-shrink:0;}
+
+/* ── Curriculum : Vertical stack ── */
+.curri-stack{display:flex;flex-direction:column;gap:10px;}
+.curri-item{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--surface);}
+.curri-badge{padding:16px 18px;background:var(--surface-2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:80px;flex-shrink:0;border-right:1px solid var(--border-soft);}
+.curri-badge .cb-n{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--accent);}
+.curri-badge .cb-label{font-size:11px;color:var(--text-lo);}
+.curri-content{padding:16px 20px;flex:1;}
+.curri-content .ct-title{font-size:15px;font-weight:700;color:var(--text-hi);margin-bottom:6px;}
+.curri-content .ct-body{font-size:14px;color:var(--text-md);line-height:1.6;}
+
+/* ── Conditions (수료 조건) ── */
+.conditions{border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.cond-item{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border-soft);font-size:14px;color:var(--text-md);line-height:1.6;}
+.cond-item:last-child{border-bottom:none;}
+.cond-check{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;color:var(--accent);margin-top:1px;}
+.cond-item.warn{background:var(--danger-dim);}
+.cond-item.warn .cond-check{border-color:var(--danger);color:var(--danger);}
+
+/* ── Instructor card (강사 소개) ── */
+.instructor-card{display:flex;gap:20px;padding:24px;border:1px solid var(--border);border-radius:10px;background:var(--surface);align-items:flex-start;}
+.instructor-avatar{width:64px;height:64px;border-radius:50%;background:var(--accent-dim);border:2px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:var(--accent);flex-shrink:0;}
+.instructor-info{flex:1;}
+.instructor-name{font-size:17px;font-weight:700;color:var(--text-hi);margin-bottom:2px;}
+.instructor-role{font-size:13px;color:var(--accent);margin-bottom:10px;font-family:var(--mono);letter-spacing:.06em;}
+.instructor-bio{font-size:14px;color:var(--text-md);line-height:1.65;margin-bottom:12px;}
+.itags{display:flex;flex-wrap:wrap;gap:6px;}
+.itag{padding:4px 10px;border-radius:4px;background:var(--surface-2);border:1px solid var(--border);font-size:12px;color:var(--text-lo);}
+
+/* ── Apply box (하단 CTA) ── */
+.apply-box{padding:0 24px 56px;}
+.apply-inner{max-width:var(--max-w);margin:0 auto;padding:40px 36px;background:var(--surface);border:1px solid var(--border);border-radius:10px;text-align:center;}
+.apply-title{font-size:20px;font-weight:800;color:var(--text-hi);margin-bottom:8px;}
+.apply-sub{font-size:14px;color:var(--text-lo);margin-bottom:24px;line-height:1.6;}
+.apply-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 36px;background:var(--accent);color:#1a1505;font-family:var(--sans);font-size:15px;font-weight:700;border:none;border-radius:6px;cursor:pointer;text-decoration:none;letter-spacing:.01em;transition:background .15s,transform .15s;}
+.apply-btn:hover{background:var(--accent-bright);transform:translateY(-1px);text-decoration:none;}
+.apply-deadline{margin-top:14px;font-size:13px;color:var(--text-lo);}
+.apply-deadline strong{color:var(--accent);}
+
+/* ── Footer ── */
+.footer{border-top:1px solid var(--border-soft);padding:28px 24px;text-align:center;}
+.footer-logo{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text-lo);letter-spacing:.08em;margin-bottom:6px;}
+.footer-contact{font-size:13px;color:var(--text-lo);}
+.footer-contact a{color:var(--text-lo);}
+.footer-contact a:hover{color:var(--accent);}
+
+/* ── 공용 배지·태그 ── */
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;border:1px solid var(--border);font-size:13px;color:var(--text-md);}
+.pill::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+.mono-tag{display:inline-flex;align-items:center;padding:3px 8px;border-radius:4px;background:var(--accent-dim);border:1px solid var(--accent-border);font-family:var(--mono);font-size:12px;color:var(--accent);}
+.day-pill{display:inline-flex;align-items:center;padding:2px 10px;border-radius:999px;background:var(--teal-dim);border:1px solid rgba(74,191,155,.25);font-size:12px;font-weight:600;color:var(--teal);}
+
+/* ── Responsive ── */
+@media(max-width:600px){
+  .header{padding:40px 16px 28px;}
+  .curri-grid{grid-template-columns:1fr;}
+  .recommend-grid{grid-template-columns:1fr;}
+  .stats-inner{gap:24px;}
+  .instructor-card{flex-direction:column;gap:14px;}
+  .apply-inner{padding:28px 20px;}
+  .how-label{min-width:90px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== TICKER (선택 : 시각 임팩트용) ===== -->
+<!-- ticker-track 안의 내용을 프로그램 관련 키워드로 채운다. JS가 자동으로 복제해 무한 스크롤을 만든다 -->
+<!--
+<div class="ticker-wrap">
+  <div class="ticker-track" id="ticker">
+    <span class="ticker-item"><span class="ti-code">AI</span>인공지능</span>
+    <span class="ticker-item"><span class="ti-code">DATA</span>데이터분석</span>
+    <span class="ticker-item"><span class="ti-code">LLM</span>대규모언어모델</span>
+  </div>
+</div>
+-->
+
+<!-- ===== HEADER / HERO ===== -->
+<header class="header">
+  <div class="header-inner">
+    <!-- eyebrow : 기관명·시즌·배지 -->
+    <div class="eyebrow">FF Academy · 2025 Spring</div>
+    <!-- header-title : em 태그로 핵심어 강조 -->
+    <h1 class="header-title">당신의 업무를 <em>10배 빠르게</em> 만드는<br>AI 실전 활용 특강</h1>
+    <p class="header-sub">이론이 아니라 내일 당장 쓸 수 있는 것만 다룹니다. 4시간 안에 ChatGPT·Claude·Gemini를 내 업무에 연결하는 법.</p>
+    <!-- Hero 직후 CTA : 신청 버튼이 최소 2회 등장해야 한다 -->
+    <div class="header-cta">
+      <a href="https://forms.gle/XXXXX" class="apply-btn" target="_blank" rel="noopener">지금 신청하기</a>
+    </div>
+    <div class="header-divider"></div>
+  </div>
+</header>
+
+<!-- ===== STATS BAR (선택 : 신뢰 수치가 있을 때) ===== -->
+<!--
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item"><div class="stat-num">1,200+</div><div class="stat-label">누적 수강생</div></div>
+    <div class="stat-item"><div class="stat-num">97%</div><div class="stat-label">만족도</div></div>
+    <div class="stat-item"><div class="stat-num">4.9</div><div class="stat-label">평균 평점</div></div>
+    <div class="stat-item"><div class="stat-num">68%</div><div class="stat-label">재수강률</div></div>
+  </div>
+</div>
+-->
+
+<!-- ===== META CHIPS ===== -->
+<div class="meta-wrap">
+  <div class="meta-row">
+    <div class="chip"><span class="chip-label">대상</span><span class="chip-val">전 직군 임직원</span></div>
+    <div class="chip"><span class="chip-label">인원</span><span class="chip-val">선착순 30명</span></div>
+    <div class="chip"><span class="chip-label">일시</span><span class="chip-val">5월 14일 (수) 오후 2시</span></div>
+    <div class="chip"><span class="chip-label">장소</span><span class="chip-val">강남 패스트파이브 본점</span></div>
+    <div class="chip"><span class="chip-label">마감</span><span class="chip-val">5월 10일 (토)</span></div>
+  </div>
+</div>
+
+<!-- ===== NOTICE (선택 : 마감 임박·특이사항) ===== -->
+<!--
+<div class="notice-wrap">
+  <div class="notice">
+    <strong>신청 안내 :</strong> 선발 기준은 지원서 검토 후 개별 안내됩니다. 합격자는 마감 다음날 이메일로 통보됩니다.
+  </div>
+</div>
+-->
+
+<!-- ===== BRIEF (선택 : 복잡한 배경 설명) ===== -->
+<!--
+<div class="brief-wrap">
+  <div class="brief">
+    AI가 확산되는 지금, 도구를 모르면 뒤처지는 게 아니라 대체됩니다. 이 특강은 "언젠가 배워야지"를 "오늘 바로 쓴다"로 바꾸는 4시간입니다.
+  </div>
+</div>
+-->
+
+<!-- ===== MAIN CONTENT ===== -->
+<main class="main">
+
+  <!-- 00 교육 개요 (info-table : 필수) -->
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">00</span>
+      <h2 class="section-title">교육 개요</h2>
+    </div>
+    <table class="info-table">
+      <tr><th>대상</th><td>AI 도구 활용에 관심 있는 전 직군 임직원 (경력 무관)</td></tr>
+      <tr><th>인원</th><td><strong>선착순 30명</strong> (정원 초과 시 대기 등록)</td></tr>
+      <tr><th>일시</th><td>2025년 5월 14일 (수) 오후 2:00 ~ 6:00 (4시간)</td></tr>
+      <tr><th>장소</th><td>강남 패스트파이브 본점 세미나룸 B (서울 강남구)</td></tr>
+      <tr><th>비용</th><td><strong>무료</strong> (임직원 대상 사내 교육)</td></tr>
+      <tr><th>준비물</th><td>노트북 필참 · ChatGPT 또는 Claude 계정 사전 생성</td></tr>
+      <tr><th>신청 마감</th><td>2025년 5월 10일 (토) 자정</td></tr>
+    </table>
+  </section>
+
+  <!-- 01 이런 분께 추천 (선택) -->
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2 class="section-title">이런 분께 추천합니다</h2>
+    </div>
+    <div class="recommend-grid">
+      <div class="rec-item">AI가 화제인데 정작 내 업무에 어떻게 쓰는지 모르겠는 분</div>
+      <div class="rec-item">ChatGPT를 써봤지만 원하는 결과가 잘 안 나오는 분</div>
+      <div class="rec-item">보고서·이메일·데이터 정리에 시간을 너무 많이 쓰는 분</div>
+      <div class="rec-item">팀에 AI 활용을 전파하고 싶은 리더·팀장급</div>
+    </div>
+  </section>
+
+  <!-- 02 교육 목표 (선택 : 아웃컴이 3개 이상일 때) -->
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2 class="section-title">이 교육이 끝나면</h2>
+    </div>
+    <div class="goal-list">
+      <div class="goal-item">
+        <span class="goal-num">01</span>
+        <div class="goal-text"><strong>ChatGPT·Claude·Gemini의 차이를 알고 목적에 맞게 선택</strong>할 수 있습니다. 어떤 도구가 내 업무에 맞는지 판단하는 기준이 생깁니다.</div>
+      </div>
+      <div class="goal-item">
+        <span class="goal-num">02</span>
+        <div class="goal-text"><strong>프롬프트 5가지 패턴</strong>을 익혀 원하는 결과를 첫 번째 시도에 뽑을 수 있습니다.</div>
+      </div>
+      <div class="goal-item">
+        <span class="goal-num">03</span>
+        <div class="goal-text">보고서 초안 작성, 이메일 정리, 회의록 요약 등 <strong>내 실제 업무 3가지에 바로 적용</strong>합니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 커리큘럼 (3종 중 선택 : 아래는 timeline 예시) -->
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2 class="section-title">커리큘럼</h2>
+      <span class="section-note">총 4시간 · <span class="day-pill">대면 강의</span></span>
+    </div>
+    <!-- timeline 형식 -->
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot live"></div>
+        <div class="tl-head">
+          <span class="tl-num">PART 01</span>
+          <span class="tl-title">AI 도구 지도 그리기 (60분)</span>
+          <span class="tl-date">14:00</span>
+        </div>
+        <div class="tl-body">ChatGPT·Claude·Gemini·Copilot 비교. 어떤 상황에 무엇을 써야 하는가. 도구 선택 기준과 한계.</div>
+        <div class="tl-tags"><span class="tag live">강의</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot live"></div>
+        <div class="tl-head">
+          <span class="tl-num">PART 02</span>
+          <span class="tl-title">프롬프트 5가지 패턴 (90분)</span>
+          <span class="tl-date">15:00</span>
+        </div>
+        <div class="tl-body">역할 부여, 형식 지정, 예시 제공, 단계 분해, 반복 개선. 각 패턴을 실습으로 익힌다.</div>
+        <div class="tl-tags"><span class="tag live">강의</span><span class="tag self">실습</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot self"></div>
+        <div class="tl-head">
+          <span class="tl-num">BREAK</span>
+          <span class="tl-title">휴식 (15분)</span>
+          <span class="tl-date">16:30</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot live"></div>
+        <div class="tl-head">
+          <span class="tl-num">PART 03</span>
+          <span class="tl-title">내 업무에 적용하기 (75분)</span>
+          <span class="tl-date">16:45</span>
+        </div>
+        <div class="tl-body">보고서 초안, 이메일 작성, 데이터 정리 3개 시나리오 실습. 수강생 각자의 실제 업무 파일 사용.</div>
+        <div class="tl-tags"><span class="tag self">실습</span></div>
+      </div>
+    </div>
+
+    <!-- curri-grid 형식 (주석 해제해서 교체 가능) -->
+    <!--
+    <div class="curri-grid">
+      <div class="curri-card">
+        <div class="week">WEEK 01</div>
+        <div class="week-title">AI 기초와 도구 선택</div>
+        <ul><li>주요 AI 도구 비교</li><li>도구 선택 기준</li><li>첫 프롬프트 실습</li></ul>
+      </div>
+      <div class="curri-card">
+        <div class="week">WEEK 02~03</div>
+        <div class="week-title">프롬프트 심화</div>
+        <ul><li>5가지 패턴 습득</li><li>업무별 템플릿</li><li>동료 피드백</li></ul>
+      </div>
+      <div class="curri-card">
+        <div class="week">WEEK 04</div>
+        <div class="week-title">실전 적용 및 발표</div>
+        <ul><li>팀 프로젝트</li><li>결과물 발표</li><li>수료증 수여</li></ul>
+      </div>
+    </div>
+    -->
+
+    <!-- curri-stack 형식 (주석 해제해서 교체 가능) -->
+    <!--
+    <div class="curri-stack">
+      <div class="curri-item">
+        <div class="curri-badge"><span class="cb-n">01</span><span class="cb-label">강의</span></div>
+        <div class="curri-content">
+          <div class="ct-title">AI 도구 지도 그리기</div>
+          <div class="ct-body">ChatGPT·Claude·Gemini 비교 및 도구 선택 기준</div>
+        </div>
+      </div>
+      <div class="curri-item">
+        <div class="curri-badge"><span class="cb-n">02</span><span class="cb-label">실습</span></div>
+        <div class="curri-content">
+          <div class="ct-title">프롬프트 5가지 패턴</div>
+          <div class="ct-body">역할·형식·예시·단계·반복 패턴을 실제 예제로 연습</div>
+        </div>
+      </div>
+    </div>
+    -->
+  </section>
+
+  <!-- 04 강사 소개 (선택 : 강사 기반 프로그램 필수) -->
+  <!--
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h2 class="section-title">강사 소개</h2>
+    </div>
+    <div class="instructor-card">
+      <div class="instructor-avatar">구</div>
+      <div class="instructor-info">
+        <div class="instructor-name">구연정</div>
+        <div class="instructor-role">FF Academy · AI 교육 디렉터</div>
+        <div class="instructor-bio">
+          3년간 500명 이상의 임직원에게 AI 활용 교육을 진행했습니다. 현장에서 실제로 쓰이는 도구와 방법만 가르칩니다. "이론 → 실습 → 내 것으로" 흐름을 한 세션에 담는 것을 목표로 합니다.
+        </div>
+        <div class="itags">
+          <span class="itag">ChatGPT 강의 200+ 회</span>
+          <span class="itag">기업 AI 컨설팅</span>
+          <span class="itag">패스트파이브 내부 강사</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  -->
+
+  <!-- 05 수료 조건 (선택) -->
+  <!--
+  <section class="section">
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <h2 class="section-title">수료 기준</h2>
+    </div>
+    <div class="conditions">
+      <div class="cond-item"><div class="cond-check">✓</div><div>전체 4시간 중 <strong>80% 이상 출석</strong></div></div>
+      <div class="cond-item"><div class="cond-check">✓</div><div>PART 03 실습 결과물 <strong>제출 필수</strong></div></div>
+      <div class="cond-item warn"><div class="cond-check">!</div><div>조건 미충족 시 수료증 미발급 (재수강 가능)</div></div>
+    </div>
+  </section>
+  -->
+
+</main>
+
+<!-- ===== APPLY BOX (하단 CTA : 필수) ===== -->
+<div class="apply-box">
+  <div class="apply-inner">
+    <div class="apply-title">지금 신청하세요</div>
+    <div class="apply-sub">선착순 30명 · 마감 후 추가 접수 없음<br>신청 완료 후 확인 이메일이 발송됩니다</div>
+    <a href="https://forms.gle/XXXXX" class="apply-btn" target="_blank" rel="noopener">신청하기 →</a>
+    <div class="apply-deadline">신청 마감 : <strong>2025년 5월 10일 (토) 자정</strong></div>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-logo">FF ACADEMY</div>
+  <div class="footer-contact">문의 · <a href="mailto:academy@fastfive.co.kr">academy@fastfive.co.kr</a> · @구연정</div>
+</footer>
+
+<script>
+// Ticker 무한 스크롤 (ticker-wrap 주석 해제 시 자동 활성화)
+(function(){
+  var track = document.getElementById('ticker');
+  if(!track) return;
+  var clone = track.cloneNode(true);
+  clone.setAttribute('aria-hidden','true');
+  track.parentNode.appendChild(clone);
+})();
+</script>
+</body>
+</html>
