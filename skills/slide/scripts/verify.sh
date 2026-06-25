@@ -21,11 +21,18 @@ while IFS= read -r line; do
   echo "  ✗ [구두점 : em/en-dash → 콜론(:)] $line"; fail=$((fail + 1))
 done < <(grep -nE "[—–]" "$TARGET" || true)
 
-# 외부 코드 의존성 : 외부 CDN script/stylesheet 금지 (자체완결)
+# 외부 JS 의존성 금지 (폰트·스타일 CDN은 허용)
 while IFS= read -r line; do
   [[ -n "$line" ]] || continue
-  echo "  ✗ [외부 의존성 : 단일 파일 자체완결 위반] $line"; fail=$((fail + 1))
-done < <(grep -nE '<(script|link)[^>]*(src|href)="https?://' "$TARGET" || true)
+  echo "  ✗ [외부 JS : 외부 스크립트 금지 — 내비게이션은 인라인으로] $line"; fail=$((fail + 1))
+done < <(grep -nE '<script[^>]+src="https?://' "$TARGET" || true)
+
+# 허용되지 않은 외부 스타일시트 (폰트 CDN 2종은 허용)
+while IFS= read -r line; do
+  [[ -n "$line" ]] || continue
+  echo "$line" | grep -qE '(fonts\.googleapis\.com|cdn\.jsdelivr\.net/gh/orioncactus)' && continue
+  echo "  ✗ [외부 스타일 : 허용되지 않은 CDN — fonts.googleapis.com·orioncactus만 허용] $line"; fail=$((fail + 1))
+done < <(grep -nE '<link[^>]+href="https?://' "$TARGET" || true)
 
 # 슬라이드 존재 : <section class="...slide...">  1개 이상 (HTML 주석 제외)
 nocomment=$(perl -0777 -pe 's/<!--.*?-->//gs' "$TARGET" 2>/dev/null || cat "$TARGET")
