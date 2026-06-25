@@ -1,0 +1,123 @@
+<!doctype html>
+<!-- loop-kit / slide 완성형 베이스. 이 파일을 복제해 각 섹션(.slide) 안을 채운다.
+     확장자는 .txt (생성물 .html과 구분). 실제 산출 시 .html로 저장한다.
+     키보드·터치·카운터·접근성(prefers-reduced-motion) 모두 동작한다. -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>슬라이드 제목</title>
+<style>
+  :root{
+    --bg-base:#0a0a0f; --bg-elev-1:#13131a; --bg-elev-2:#1c1c26;
+    --text-hi:#f5f5fa; --text-md:#cfcfdc; --text-lo:#8a8aa0;
+    --border-subtle:#22222e; --border-base:#2e2e3d;
+    --accent-blue:#5b8cff; --accent-purple:#a371ff;
+    --accent-grad:linear-gradient(90deg,#5b8cff,#a371ff);
+    --success:#4ade80; --warning:#fbbf24; --danger:#ff6b7a; --info:#60a5fa;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{
+    background:var(--bg-base); color:var(--text-md);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    overflow:hidden;
+  }
+  .slide{
+    position:absolute; inset:0; display:none;
+    flex-direction:column; justify-content:center;
+    padding:96px 128px; opacity:0;
+    transition:opacity .24s cubic-bezier(.2,.8,.2,1),
+               transform .24s cubic-bezier(.2,.8,.2,1);
+    transform:translateY(8px);
+  }
+  .slide.active{display:flex; opacity:1; transform:translateY(0);}
+  h1{font-size:60px; font-weight:700; color:var(--text-hi); margin:0 0 24px; line-height:1.1;}
+  h2{font-size:40px; font-weight:700; color:var(--text-hi); margin:0 0 16px;}
+  p,li{font-size:20px; line-height:1.6;}
+  .grad{background:var(--accent-grad); -webkit-background-clip:text;
+        background-clip:text; color:transparent;}
+  .label{font-size:14px; letter-spacing:.2em; text-transform:uppercase;
+         color:var(--text-lo); font-weight:600; margin-bottom:16px;}
+  /* Hero 레이아웃 */
+  .slide.hero{align-items:flex-start;}
+  .slide.hero h1{font-size:clamp(58px,8vw,114px); font-weight:800;}
+  /* 모티프 */
+  .mark{position:fixed; top:24px; left:24px; color:var(--text-lo);
+        font-size:16px; z-index:10;}
+  .counter{position:fixed; bottom:24px; right:24px; color:var(--text-lo);
+           font-size:16px; z-index:10;}
+  :focus-visible{outline:2px solid var(--accent-blue); outline-offset:3px;}
+  @media (prefers-reduced-motion:reduce){
+    .slide{transition:none; transform:none;}
+  }
+</style>
+</head>
+<body>
+  <div class="mark">✦</div>
+
+  <!-- ===== 슬라이드 시작 : 한 장 = 메시지 한 개 ===== -->
+  <section class="slide hero active">
+    <div class="label">SECTION 01</div>
+    <h1>핵심 메시지를 <span class="grad">한 문장</span>으로</h1>
+  </section>
+
+  <section class="slide">
+    <h2>두 번째 장의 메시지</h2>
+    <ul>
+      <li>근거 1 : 짧게</li>
+      <li>근거 2 : 짧게</li>
+      <li>근거 3 : 짧게</li>
+    </ul>
+  </section>
+  <!-- ===== 슬라이드 끝 ===== -->
+
+  <div class="counter"><span id="cur">1</span> / <span id="tot">1</span></div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var i = 0, buf = '';
+  document.getElementById('tot').textContent = slides.length;
+
+  function show(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(s, idx){ s.classList.toggle('active', idx === i); });
+    document.getElementById('cur').textContent = i + 1;
+  }
+  function next(){ show(i + 1); }
+  function prev(){ show(i - 1); }
+
+  document.addEventListener('keydown', function(e){
+    var t = e.target.tagName;
+    if (t === 'INPUT' || t === 'TEXTAREA') return;   // 입력 중엔 무시
+    switch(e.key){
+      case 'ArrowRight': case ' ': case 'PageDown': case 'j': case 'l': next(); break;
+      case 'ArrowLeft':  case 'PageUp':  case 'k': case 'h': prev(); break;
+      case 'Home': show(0); break;
+      case 'End':  show(slides.length - 1); break;
+      case 'f': if(document.fullscreenElement) document.exitFullscreen();
+                else document.documentElement.requestFullscreen(); break;
+      case 'Escape': if(document.fullscreenElement) document.exitFullscreen(); break;
+      case 'Enter': if(buf){ show(parseInt(buf,10) - 1); buf=''; } break;
+      default:
+        if(/^[0-9]$/.test(e.key)){ buf += e.key; return; }
+    }
+    buf = '';
+  });
+
+  // 터치 : 수평 80px+ & 수직 40px- → 이전/다음
+  var sx=0, sy=0;
+  document.addEventListener('touchstart', function(e){
+    sx=e.changedTouches[0].clientX; sy=e.changedTouches[0].clientY;
+  }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    var dx=e.changedTouches[0].clientX - sx, dy=e.changedTouches[0].clientY - sy;
+    if(Math.abs(dx) > 80 && Math.abs(dy) < 40){ dx < 0 ? next() : prev(); }
+  }, {passive:true});
+
+  show(0);
+})();
+</script>
+</body>
+</html>
