@@ -1,7 +1,7 @@
 {
   "name": "loop-kit",
   "description": "공정·품질 기반 Claude Code 스킬 키트. 모든 스킬에 실행 가능한 검증 게이트가 내장되어 있다. 의존성 제로 : Claude만으로 동작.",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "author": { "name": "only-victory" },
   "homepage": "https://github.com/only-victory/loop-kit",
   "license": "MIT"

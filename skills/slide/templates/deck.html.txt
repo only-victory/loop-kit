@@ -1,7 +1,9 @@
 <!doctype html>
 <!-- loop-kit / slide 완성형 베이스. 이 파일을 복제해 각 섹션(.slide) 안을 채운다.
      확장자는 .txt (생성물 .html과 구분). 실제 산출 시 .html로 저장한다.
-     키보드·터치·카운터·접근성(prefers-reduced-motion) 모두 동작한다. -->
+     ★ 모든 슬라이드는 .frame 안에 .eyebrow / .title / .lead / .body 순서로 채운다.
+       좌측 거터(left)와 제목 높이(top)가 고정되어 장마다 위치가 흔들리지 않는다.
+       슬라이드별로 padding·위치를 새로 잡지 말 것. -->
 <html lang="ko">
 <head>
 <meta charset="utf-8">
@@ -15,6 +17,9 @@
     --accent-blue:#5b8cff; --accent-purple:#a371ff;
     --accent-grad:linear-gradient(90deg,#5b8cff,#a371ff);
     --success:#4ade80; --warning:#fbbf24; --danger:#ff6b7a; --info:#60a5fa;
+    /* 레이아웃 고정값 : 모든 슬라이드가 공유한다 */
+    --gutter-x:128px;   /* 좌우 거터 */
+    --anchor-y:26vh;    /* 제목(eyebrow) 시작 높이 — 장마다 동일 */
   }
   *{box-sizing:border-box;}
   html,body{margin:0;height:100%;}
@@ -23,52 +28,78 @@
     font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
     overflow:hidden;
   }
-  .slide{
-    position:absolute; inset:0; display:none;
-    flex-direction:column; justify-content:center;
-    padding:96px 128px; opacity:0;
-    transition:opacity .24s cubic-bezier(.2,.8,.2,1),
-               transform .24s cubic-bezier(.2,.8,.2,1);
-    transform:translateY(8px);
+  .slide{position:absolute; inset:0; display:none;}
+  .slide.active{display:block; animation:fade .24s cubic-bezier(.2,.8,.2,1);}
+  @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+  /* ★ 고정 프레임 : 모든 슬라이드가 같은 좌측·높이에서 시작 */
+  .frame{
+    position:absolute;
+    left:var(--gutter-x); right:var(--gutter-x);
+    top:var(--anchor-y);
   }
-  .slide.active{display:flex; opacity:1; transform:translateY(0);}
-  h1{font-size:60px; font-weight:700; color:var(--text-hi); margin:0 0 24px; line-height:1.1;}
-  h2{font-size:40px; font-weight:700; color:var(--text-hi); margin:0 0 16px;}
-  p,li{font-size:20px; line-height:1.6;}
+  .eyebrow{
+    font-size:14px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--text-lo); font-weight:600; margin:0 0 16px;
+  }
+  .title{font-size:60px; font-weight:700; color:var(--text-hi);
+         margin:0 0 24px; line-height:1.14;}
+  .title.hero{font-size:clamp(58px,7.5vw,108px); font-weight:800; line-height:1.08;}
+  .lead{font-size:20px; line-height:1.6; color:var(--text-md); margin:0; max-width:60ch;}
+  .body{margin-top:24px;}
+  .body ul{margin:0; padding-left:1.1em;}
+  .body li{font-size:20px; line-height:1.7; margin:0 0 12px;}
   .grad{background:var(--accent-grad); -webkit-background-clip:text;
         background-clip:text; color:transparent;}
-  .label{font-size:14px; letter-spacing:.2em; text-transform:uppercase;
-         color:var(--text-lo); font-weight:600; margin-bottom:16px;}
-  /* Hero 레이아웃 */
-  .slide.hero{align-items:flex-start;}
-  .slide.hero h1{font-size:clamp(58px,8vw,114px); font-weight:800;}
+
+  /* 2단 (two-column) : 같은 프레임 안에서 균등 분할 */
+  .cols{display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:24px;}
+  .card{background:var(--bg-elev-1); border:1px solid var(--border-base);
+        border-radius:16px; padding:32px;}
+  .card h3{font-size:36px; margin:0 0 8px; color:var(--text-hi);}
+
   /* 모티프 */
-  .mark{position:fixed; top:24px; left:24px; color:var(--text-lo);
-        font-size:16px; z-index:10;}
-  .counter{position:fixed; bottom:24px; right:24px; color:var(--text-lo);
-           font-size:16px; z-index:10;}
+  .mark{position:fixed; top:24px; left:24px; color:var(--text-lo); font-size:16px; z-index:10;}
+  .counter{position:fixed; bottom:24px; right:24px; color:var(--text-lo); font-size:16px; z-index:10;}
   :focus-visible{outline:2px solid var(--accent-blue); outline-offset:3px;}
-  @media (prefers-reduced-motion:reduce){
-    .slide{transition:none; transform:none;}
-  }
+  @media (prefers-reduced-motion:reduce){ .slide.active{animation:none;} }
 </style>
 </head>
 <body>
   <div class="mark">✦</div>
 
-  <!-- ===== 슬라이드 시작 : 한 장 = 메시지 한 개 ===== -->
-  <section class="slide hero active">
-    <div class="label">SECTION 01</div>
-    <h1>핵심 메시지를 <span class="grad">한 문장</span>으로</h1>
+  <!-- ===== 한 장 = 메시지 한 개. 항상 .frame > .eyebrow/.title/.lead/.body ===== -->
+  <section class="slide active">
+    <div class="frame">
+      <div class="eyebrow">SECTION 01</div>
+      <h1 class="title hero">핵심 메시지를 <span class="grad">한 문장</span>으로</h1>
+      <p class="lead">부제는 한 줄로.</p>
+    </div>
   </section>
 
   <section class="slide">
-    <h2>두 번째 장의 메시지</h2>
-    <ul>
-      <li>근거 1 : 짧게</li>
-      <li>근거 2 : 짧게</li>
-      <li>근거 3 : 짧게</li>
-    </ul>
+    <div class="frame">
+      <div class="eyebrow">우리가 아는 규칙</div>
+      <h1 class="title">200년 동안, 공식은 하나였다</h1>
+      <div class="body">
+        <ul>
+          <li>근거 1 : 짧게</li>
+          <li>근거 2 : 짧게</li>
+          <li>근거 3 : 짧게</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">두 개의 문</div>
+      <h1 class="title">두 개의 문이 동시에 닫힌다</h1>
+      <div class="cols">
+        <div class="card"><h3>지식노동</h3><p class="lead">사무·분석·창작이 먼저 자동화된다</p></div>
+        <div class="card"><h3>육체노동</h3><p class="lead">로봇이 현장·물류·돌봄까지 들어온다</p></div>
+      </div>
+    </div>
   </section>
   <!-- ===== 슬라이드 끝 ===== -->
 
@@ -90,7 +121,7 @@
 
   document.addEventListener('keydown', function(e){
     var t = e.target.tagName;
-    if (t === 'INPUT' || t === 'TEXTAREA') return;   // 입력 중엔 무시
+    if (t === 'INPUT' || t === 'TEXTAREA') return;
     switch(e.key){
       case 'ArrowRight': case ' ': case 'PageDown': case 'j': case 'l': next(); break;
       case 'ArrowLeft':  case 'PageUp':  case 'k': case 'h': prev(); break;
@@ -106,7 +137,6 @@
     buf = '';
   });
 
-  // 터치 : 수평 80px+ & 수직 40px- → 이전/다음
   var sx=0, sy=0;
   document.addEventListener('touchstart', function(e){
     sx=e.changedTouches[0].clientX; sy=e.changedTouches[0].clientY;
