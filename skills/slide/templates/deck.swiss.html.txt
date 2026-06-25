@@ -1,0 +1,294 @@
+<!doctype html>
+<!-- loop-kit / slide : 디자인 결 [스위스 그리드]
+     정체성 : 그로테스크 산세리프(Archivo), 강한 베이스라인 그리드, 플러시 좌측 정렬, 검정 헤어라인,
+              시그널 레드 1색 절제. 유일한 라이트 결 (주간 발표·인쇄 친화). 색은 결에 포함.
+     ★ 고정 프레임 : measure로 본문 폭 제한. 그리드 좌표형 eyebrow가 우측 균형을 잡는다. -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>슬라이드 제목</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+:root{
+  /* 스위스 팔레트 : 종이 흰 배경 + 순흑 글자 + 시그널 레드 1색 */
+  --bg-base:#f2f2ef; --bg-elev:#ffffff; --bg-code:#111111;
+  --fg:#0a0a0a; --mute:#3a3a38; --dim:#8c8c86;
+  --red:#e2231a; --line:#0a0a0a; --line-soft:#cdcdc7;
+  --grot:'Archivo',-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --sans:'Pretendard',-apple-system,sans-serif;
+  --gutter-x:112px; --anchor-y:23vh; --measure:54ch;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:var(--bg-base);}
+body{font-family:var(--sans);color:var(--mute);overflow:hidden;word-break:keep-all;}
+
+.slide{position:absolute;inset:0;display:none;}
+.slide.active{display:block;animation:fade .2s linear;}
+@keyframes fade{from{opacity:0;}to{opacity:1;}}
+@media(prefers-reduced-motion:reduce){.slide.active{animation:none;}}
+
+/* 고정 프레임 : 상단 헤어라인 + 그리드 좌표 eyebrow */
+.frame{position:absolute;left:var(--gutter-x);right:var(--gutter-x);top:var(--anchor-y);}
+.eyebrow{font-family:var(--mono);font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg);font-weight:600;margin:0 0 20px;padding-top:18px;border-top:2px solid var(--line);display:flex;justify-content:space-between;}
+.eyebrow .tag{color:var(--red);}
+.title{font-family:var(--grot);font-size:66px;font-weight:900;color:var(--fg);margin:0 0 22px;line-height:1.02;letter-spacing:-.02em;}
+.title.hero{font-size:clamp(64px,8.5vw,120px);line-height:.96;}
+.title .red{color:var(--red);}
+.lead{font-size:21px;line-height:1.55;color:var(--mute);max-width:var(--measure);}
+.body{margin-top:24px;max-width:var(--measure);}
+.body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:14px;}
+.body li{font-size:20px;line-height:1.5;color:var(--mute);padding-left:26px;position:relative;}
+.body li::before{content:'\25AA';position:absolute;left:0;top:2px;color:var(--red);font-size:14px;}
+
+/* 모티프 */
+.mark{position:fixed;top:26px;left:28px;color:var(--fg);font-size:16px;z-index:10;}
+.counter{position:fixed;bottom:26px;right:30px;color:var(--dim);font-size:14px;z-index:10;font-family:var(--mono);}
+.folio{position:fixed;top:26px;right:30px;font-family:var(--mono);font-size:14px;letter-spacing:.08em;color:var(--dim);z-index:10;text-transform:uppercase;}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px;}
+
+/* two-column */
+.two-column{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:26px;border-top:2px solid var(--line);}
+.col{padding:24px 28px 24px 0;border-right:1px solid var(--line-soft);}
+.col:last-child{border-right:none;padding-left:28px;}
+.col .lbl{font-family:var(--mono);font-size:14px;letter-spacing:.08em;font-weight:600;color:var(--red);margin-bottom:14px;text-transform:uppercase;}
+.col .body{font-family:var(--grot);font-size:24px;font-weight:700;color:var(--fg);line-height:1.2;margin-top:0;}
+.col p{font-size:19px;color:var(--mute);line-height:1.5;margin-top:10px;}
+
+/* stats-split */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:26px;border-top:2px solid var(--line);}
+.stat{padding:28px 28px 0 0;border-right:1px solid var(--line-soft);}
+.stat:last-child{border-right:none;padding-left:28px;}
+.stat .v{font-family:var(--grot);font-size:104px;font-weight:900;line-height:.9;color:var(--fg);letter-spacing:-.04em;}
+.stat.alt .v{color:var(--red);}
+.stat .l{margin-top:16px;font-family:var(--mono);font-size:15px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em;}
+
+/* comparison-table */
+.cmp{width:100%;border-collapse:collapse;margin-top:24px;font-size:19px;}
+.cmp th,.cmp td{text-align:left;padding:16px 18px;border-bottom:1px solid var(--line-soft);}
+.cmp thead th{font-family:var(--mono);font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--fg);font-weight:600;border-bottom:2px solid var(--line);}
+.cmp tbody th{font-family:var(--grot);font-weight:700;color:var(--fg);}
+.cmp td{color:var(--mute);}
+.cmp .yes{color:var(--fg);font-weight:600;} .cmp .no{color:var(--red);}
+
+/* steps-list */
+.steps{display:flex;flex-direction:column;margin-top:26px;max-width:900px;border-top:2px solid var(--line);}
+.step{display:flex;align-items:baseline;gap:26px;padding:20px 0;border-bottom:1px solid var(--line-soft);}
+.step .n{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--red);min-width:44px;}
+.step .nm{font-family:var(--grot);font-size:22px;font-weight:700;color:var(--fg);min-width:180px;flex-shrink:0;}
+.step .d{font-size:18px;color:var(--mute);flex:1;line-height:1.45;}
+
+/* principle */
+.principle{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:26px;border-top:2px solid var(--line);}
+.pp{padding:24px 28px 24px 0;font-size:21px;line-height:1.4;border-right:1px solid var(--line-soft);}
+.pp:last-child{border-right:none;padding-left:28px;}
+.pp .mk{font-family:var(--mono);font-size:14px;display:block;margin-bottom:12px;text-transform:uppercase;letter-spacing:.06em;}
+.pp.good{color:var(--fg);} .pp.good .mk{color:var(--fg);}
+.pp.bad{color:var(--mute);} .pp.bad .mk{color:var(--red);}
+
+/* quote */
+.quote{margin-top:24px;border-top:2px solid var(--line);padding-top:30px;max-width:20ch;}
+.quote blockquote{font-family:var(--grot);font-size:clamp(40px,5.5vw,76px);font-weight:900;line-height:1.02;color:var(--fg);letter-spacing:-.03em;}
+.quote .by{margin-top:24px;font-family:var(--mono);font-size:15px;letter-spacing:.06em;color:var(--red);text-transform:uppercase;max-width:none;}
+
+/* code / code-split */
+.code{margin-top:24px;border:2px solid var(--line);overflow:hidden;}
+.code .bar{font-family:var(--mono);font-size:14px;color:#bbb;padding:11px 18px;border-bottom:1px solid #333;background:var(--bg-code);letter-spacing:.06em;}
+.code pre{font-family:var(--mono);font-size:18px;line-height:1.65;color:#f2f2f2;padding:22px 24px;background:var(--bg-code);overflow:auto;}
+.code-split{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px;}
+.code-split .code{margin-top:0;}
+.code .tok{color:#ff8a80;} .code .str{color:#8ad88a;} .code .dim{color:#888;}
+
+/* module-intro */
+.module-intro{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 var(--gutter-x);}
+.module-intro .num{font-family:var(--mono);font-size:16px;letter-spacing:.12em;color:var(--red);text-transform:uppercase;margin-bottom:20px;}
+.module-intro .ttl{font-family:var(--grot);font-size:clamp(64px,10vw,140px);font-weight:900;line-height:.94;color:var(--fg);letter-spacing:-.04em;}
+.module-intro .sub{margin-top:22px;font-size:21px;color:var(--mute);max-width:50ch;line-height:1.5;}
+
+/* outro */
+.outro{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 var(--gutter-x);}
+.outro .eyebrow{border-top:none;padding-top:0;}
+.outro .big{font-family:var(--grot);font-size:clamp(48px,6.5vw,96px);font-weight:900;line-height:.98;color:var(--fg);letter-spacing:-.03em;max-width:16ch;}
+.outro .cta{margin-top:34px;display:flex;flex-direction:column;border-top:2px solid var(--line);max-width:58ch;}
+.outro .cta .row{display:flex;align-items:baseline;gap:18px;font-size:21px;color:var(--fg);padding:16px 0;border-bottom:1px solid var(--line-soft);}
+.outro .cta .row .k{font-family:var(--mono);font-size:14px;color:var(--red);letter-spacing:.08em;text-transform:uppercase;min-width:120px;flex-shrink:0;}
+</style>
+</head>
+<body>
+  <div class="mark">✦</div>
+  <div class="folio">SWISS GRID</div>
+
+  <!-- HERO -->
+  <section class="slide active">
+    <div class="frame">
+      <div class="eyebrow"><span>Section 01</span><span class="tag">Fig. A</span></div>
+      <h1 class="title hero">핵심은 <span class="red">한 문장</span>이면 된다</h1>
+      <p class="lead">부제는 한 줄로. 청중이 이 장에서 무엇을 가져가는지 여기서 정해진다.</p>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow"><span>맥락</span><span class="tag">02</span></div>
+      <h1 class="title">왜 지금인가</h1>
+      <div class="body">
+        <ul>
+          <li>주장을 떠받치는 첫 번째 근거. 한 줄로 끊어 읽히게 쓴다.</li>
+          <li>두 번째 근거. 문단을 통째로 넣지 않는다.</li>
+          <li>세 번째 근거. 셋을 넘기면 청중이 잊는다.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TWO-COLUMN -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow"><span>대비</span><span class="tag">03</span></div>
+      <h1 class="title">두 갈래</h1>
+      <div class="two-column">
+        <div class="col"><div class="lbl">기존</div><div class="body">설명을 여기에</div><p>부연 한 줄.</p></div>
+        <div class="col"><div class="lbl">개선</div><div class="body">설명을 여기에</div><p>부연 한 줄.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS-SPLIT -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow"><span>수치</span><span class="tag">04</span></div>
+      <h1 class="title">숫자가 말한다</h1>
+      <div class="stats">
+        <div class="stat"><div class="v">312</div><div class="l">처리 건수 (월)</div></div>
+        <div class="stat alt"><div class="v">78%</div><div class="l">자동 응답 비율</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON-TABLE -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow"><span>비교표</span><span class="tag">05</span></div>
+      <h1 class="title">플랜 비교</h1>
+      <table class="cmp">
+        <thead><tr><th>항목</th><th>A 플랜</th><th>B 플랜</th><th>C 플랜</th></tr></thead>
+        <tbody>
+          <tr><th>가격</th><td>무료</td><td>9,900원</td><td>29,000원</td></tr>
+          <tr><th>사용자</th><td>1명</td><td>5명</td><td>무제한</td></tr>
+          <tr><th>지원</th><td class="no">없음</td><td class="yes">이메일</td><td class="yes">전담</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- STEPS-LIST -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow"><span>절차</span><span class="tag">06</span></div>
+      <h1 class="title">세 단계</h1>
+      <div class="steps">
+        <div class="step"><span class="n">01</span><span class="nm">단계명</span><span class="d">설명을 여기에 한 줄로.</span></div>
+        <div class="step"><span class="n">02</span><span class="nm">단계명</span><span class="d">설명을 여기에 한 줄로.</span></div>
+        <div class="step"><span class="n">03</span><span class="nm">단계명</span><span class="d">설명을 여기에 한 줄로.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRINCIPLE -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow"><span>원칙</span><span class="tag">07</span></div>
+      <h1 class="title">이렇게, 저렇게 말고</h1>
+      <div class="principle">
+        <div class="pp good"><span class="mk">이렇게</span>지켜야 할 방식을 구체적으로.</div>
+        <div class="pp bad"><span class="mk">이렇게 말고</span>피해야 할 방식을 구체적으로.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow"><span>인용</span><span class="tag">08</span></div>
+      <div class="quote">
+        <blockquote>검증 없으면, 그저 예쁜 쓰레기다.</blockquote>
+        <div class="by">loop-kit 제1원칙</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CODE-SPLIT -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow"><span>예제</span><span class="tag">09</span></div>
+      <h1 class="title">코드와 결과</h1>
+      <div class="code-split">
+        <div class="code"><div class="bar">verify.sh</div><pre><span class="dim"># 게이트 실행</span>
+bash verify.sh deck.html</pre></div>
+        <div class="code"><div class="bar">출력</div><pre>슬라이드 수 : 11장
+<span class="str">✓ HARD 위반 0건</span> : 통과</pre></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE-INTRO -->
+  <section class="slide">
+    <div class="module-intro">
+      <div class="num">Part 02</div>
+      <h2 class="ttl">실전 적용</h2>
+      <p class="sub">섹션을 여는 한 줄. 무엇을 다루는지 미리 예고한다.</p>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="slide">
+    <div class="outro">
+      <div class="eyebrow"><span>다음 행동</span><span class="tag">END</span></div>
+      <div class="big">오늘, 한 가지만 시작하라.</div>
+      <div class="cta">
+        <div class="row"><span class="k">지금</span><span>템플릿 하나 복제해 첫 덱 만들기</span></div>
+        <div class="row"><span class="k">이번 주</span><span>verify 게이트를 워크플로에 붙이기</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="counter"><span id="cur">1</span> / <span id="tot">1</span></div>
+<script>
+(function(){
+  var slides=Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var i=0,buf='';
+  document.getElementById('tot').textContent=slides.length;
+  function show(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,idx){s.classList.toggle('active',idx===i);});
+    document.getElementById('cur').textContent=i+1;
+  }
+  document.addEventListener('keydown',function(e){
+    var t=e.target.tagName;
+    if(t==='INPUT'||t==='TEXTAREA')return;
+    switch(e.key){
+      case 'ArrowRight':case ' ':case 'PageDown':case 'j':case 'l':show(i+1);break;
+      case 'ArrowLeft':case 'PageUp':case 'k':case 'h':show(i-1);break;
+      case 'Home':show(0);break;
+      case 'End':show(slides.length-1);break;
+      case 'f':document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();break;
+      case 'Escape':if(document.fullscreenElement)document.exitFullscreen();break;
+      case 'Enter':if(buf){show(parseInt(buf,10)-1);buf='';}break;
+      default:if(/^[0-9]$/.test(e.key)){buf+=e.key;return;}
+    }
+    buf='';
+  });
+  var sx=0,sy=0;
+  document.addEventListener('touchstart',function(e){sx=e.changedTouches[0].clientX;sy=e.changedTouches[0].clientY;},{passive:true});
+  document.addEventListener('touchend',function(e){
+    var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>80&&Math.abs(dy)<40){dx<0?show(i+1):show(i-1);}
+  },{passive:true});
+  show(0);
+})();
+</script>
+</body>
+</html>

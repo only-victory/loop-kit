@@ -1,0 +1,302 @@
+<!doctype html>
+<!-- loop-kit / slide : 디자인 결 [레트로 터미널]
+     정체성 : 모노스페이스 비중↑, 굵은 네온 보더, 스캔라인 분위기, 형광 강조, 브래킷 라벨.
+              ★ 현재 edu 네온 다크 팔레트를 이 결의 색 베이스로 흡수 (프로젝터 현장 검증값 보존).
+     색은 결에 포함. measure로 좌측쏠림 방지. -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>슬라이드 제목</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+:root{
+  /* edu 팔레트 흡수 : 프로젝터 현장 검증 완료 값 */
+  --bg-base:#08080c; --bg-elev:#11111a; --bg-code:#0c0c14;
+  --fg:#f5f5fa; --mute:#c2c2d0; --dim:#6b6b80;
+  --cyan:#1ae0ff; --green:#3df58a; --yellow:#ffd91f;
+  --purple:#b18cff; --red:#ff6b78; --orange:#ff9f3f;
+  --border:#23232e; --border-hi:#3a3a48;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --sans:'Pretendard',-apple-system,sans-serif;
+  --gutter-x:120px; --anchor-y:24vh; --measure:58ch;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:var(--bg-base);}
+body{font-family:var(--sans);color:var(--mute);overflow:hidden;word-break:keep-all;}
+/* 스캔라인 분위기 : 정적, 모션 아님 */
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:50;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px);}
+
+.slide{position:absolute;inset:0;display:none;}
+.slide.active{display:block;animation:fade .18s steps(3);}
+@keyframes fade{from{opacity:0;}to{opacity:1;}}
+@media(prefers-reduced-motion:reduce){.slide.active{animation:none;}}
+
+.frame{position:absolute;left:var(--gutter-x);right:var(--gutter-x);top:var(--anchor-y);}
+.eyebrow{font-family:var(--mono);font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);font-weight:700;margin:0 0 20px;}
+.eyebrow::before{content:'[ ';color:var(--dim);} .eyebrow::after{content:' ]';color:var(--dim);}
+.title{font-family:var(--mono);font-size:54px;font-weight:800;color:var(--fg);margin:0 0 22px;line-height:1.12;letter-spacing:-.02em;}
+.title.hero{font-size:clamp(52px,7vw,98px);line-height:1.06;}
+.title .cur{color:var(--cyan);animation:blink 1.1s steps(1) infinite;}
+@keyframes blink{50%{opacity:0;}}
+@media(prefers-reduced-motion:reduce){.title .cur{animation:none;}}
+.title .gl{color:var(--cyan);text-shadow:0 0 18px rgba(26,224,255,.55);}
+.lead{font-size:21px;line-height:1.6;color:var(--mute);max-width:var(--measure);}
+.body{margin-top:24px;max-width:var(--measure);}
+.body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px;}
+.body li{font-size:20px;line-height:1.6;color:var(--mute);padding-left:30px;position:relative;}
+.body li::before{content:'>';position:absolute;left:0;color:var(--green);font-family:var(--mono);font-weight:700;}
+
+.mark{position:fixed;top:26px;left:28px;color:var(--cyan);font-size:16px;z-index:60;text-shadow:0 0 12px rgba(26,224,255,.6);}
+.counter{position:fixed;bottom:26px;right:30px;color:var(--dim);font-size:15px;z-index:60;font-family:var(--mono);}
+.folio{position:fixed;top:26px;right:30px;font-family:var(--mono);font-size:14px;letter-spacing:.12em;color:var(--dim);z-index:60;}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;}
+
+/* two-column */
+.two-column{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px;}
+.col{padding:26px 28px;border:1px solid var(--cyan);border-radius:4px;background:var(--bg-elev);}
+.col.alt{border-color:var(--green);}
+.col .lbl{font-family:var(--mono);font-size:14px;letter-spacing:.14em;font-weight:700;color:var(--cyan);margin-bottom:14px;text-transform:uppercase;}
+.col.alt .lbl{color:var(--green);}
+.col .body{font-size:22px;color:var(--fg);line-height:1.45;margin-top:0;font-weight:600;}
+.col p{font-size:19px;color:var(--mute);line-height:1.55;margin-top:10px;}
+
+/* stats-split */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px;}
+.stat{padding:34px 28px;border:1px solid var(--border-hi);border-radius:4px;background:var(--bg-elev);text-align:center;}
+.stat .v{font-family:var(--mono);font-size:100px;font-weight:800;line-height:1;color:var(--green);letter-spacing:-.03em;text-shadow:0 0 22px rgba(61,245,138,.4);}
+.stat.alt .v{color:var(--cyan);text-shadow:0 0 22px rgba(26,224,255,.4);}
+.stat .l{margin-top:16px;font-size:18px;color:var(--mute);}
+
+/* comparison-table */
+.cmp{width:100%;border-collapse:collapse;margin-top:24px;font-size:19px;font-family:var(--mono);}
+.cmp th,.cmp td{text-align:left;padding:16px 18px;border:1px solid var(--border);}
+.cmp thead th{font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);font-weight:700;border-color:var(--border-hi);}
+.cmp tbody th{color:var(--fg);font-weight:700;}
+.cmp td{color:var(--mute);}
+.cmp .yes{color:var(--green);} .cmp .no{color:var(--red);}
+
+/* steps-list */
+.steps{display:flex;flex-direction:column;gap:12px;margin-top:24px;}
+.step{display:flex;align-items:flex-start;gap:22px;padding:18px 26px;border:1px solid var(--border);border-left:3px solid var(--cyan);border-radius:4px;background:var(--bg-elev);}
+.step .n{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--cyan);min-width:44px;}
+.step .nm{font-size:21px;font-weight:700;color:var(--fg);min-width:170px;flex-shrink:0;}
+.step .d{font-size:19px;color:var(--mute);flex:1;line-height:1.5;}
+
+/* principle */
+.principle{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px;}
+.pp{padding:24px 28px;border-radius:4px;font-size:21px;line-height:1.45;}
+.pp .mk{font-family:var(--mono);font-size:15px;font-weight:700;display:block;margin-bottom:12px;letter-spacing:.1em;}
+.pp.good{border:1px solid var(--green);border-left:4px solid var(--green);background:rgba(61,245,138,.06);color:var(--fg);}
+.pp.good .mk{color:var(--green);}
+.pp.bad{border:1px solid var(--red);border-left:4px solid var(--red);background:rgba(255,107,120,.06);color:var(--mute);}
+.pp.bad .mk{color:var(--red);}
+
+/* quote */
+.quote{margin-top:24px;max-width:22ch;border-left:4px solid var(--cyan);padding-left:32px;}
+.quote blockquote{font-family:var(--mono);font-size:clamp(36px,4.6vw,62px);font-weight:700;line-height:1.18;color:var(--fg);}
+.quote blockquote::before{content:'"';color:var(--cyan);}
+.quote blockquote::after{content:'"';color:var(--cyan);}
+.quote .by{margin-top:26px;font-family:var(--mono);font-size:16px;letter-spacing:.1em;color:var(--green);text-transform:uppercase;max-width:none;}
+
+/* code / code-split */
+.code{margin-top:24px;border:1px solid var(--border-hi);border-radius:4px;overflow:hidden;}
+.code .bar{font-family:var(--mono);font-size:14px;color:var(--dim);padding:11px 18px;border-bottom:1px solid var(--border);background:var(--bg-elev);letter-spacing:.08em;}
+.code pre{font-family:var(--mono);font-size:18px;line-height:1.7;color:var(--fg);padding:22px 24px;background:var(--bg-code);overflow:auto;}
+.code-split{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px;}
+.code-split .code{margin-top:0;}
+.code .tok{color:var(--purple);} .code .str{color:var(--green);} .code .dim{color:var(--dim);}
+
+/* module-intro */
+.module-intro{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 var(--gutter-x);gap:22px;}
+.module-intro .num{font-family:var(--mono);font-size:16px;letter-spacing:.24em;color:var(--cyan);text-transform:uppercase;border:1px solid var(--cyan);border-radius:999px;padding:8px 22px;}
+.module-intro .ttl{font-family:var(--mono);font-size:clamp(58px,8vw,108px);font-weight:800;line-height:1.02;color:var(--fg);letter-spacing:-.02em;text-shadow:0 0 30px rgba(26,224,255,.35);}
+.module-intro .sub{font-size:21px;color:var(--mute);max-width:52ch;line-height:1.5;}
+
+/* outro */
+.outro{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 var(--gutter-x);}
+.outro .eyebrow{color:var(--green);}
+.outro .eyebrow::before,.outro .eyebrow::after{color:var(--dim);}
+.outro .big{font-family:var(--mono);font-size:clamp(44px,5.6vw,82px);font-weight:800;line-height:1.08;color:var(--fg);max-width:18ch;}
+.outro .cta{margin-top:34px;display:flex;flex-direction:column;gap:12px;max-width:60ch;}
+.outro .cta .row{display:flex;align-items:baseline;gap:18px;font-size:21px;color:var(--fg);padding:16px 24px;border:1px solid var(--border);border-left:3px solid var(--green);border-radius:4px;background:var(--bg-elev);}
+.outro .cta .row .k{font-family:var(--mono);font-size:14px;color:var(--green);letter-spacing:.1em;text-transform:uppercase;min-width:110px;flex-shrink:0;}
+</style>
+</head>
+<body>
+  <div class="mark">✦</div>
+  <div class="folio">RETRO_TERM</div>
+
+  <!-- HERO -->
+  <section class="slide active">
+    <div class="frame">
+      <div class="eyebrow">section 01</div>
+      <h1 class="title hero">핵심은 <span class="gl">한 문장</span><span class="cur">▍</span></h1>
+      <p class="lead">부제는 한 줄로. 청중이 이 장에서 무엇을 가져가는지 여기서 정해진다.</p>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">context</div>
+      <h1 class="title">왜 지금인가</h1>
+      <div class="body">
+        <ul>
+          <li>주장을 떠받치는 첫 번째 근거. 한 줄로 끊어 읽히게 쓴다.</li>
+          <li>두 번째 근거. 문단을 통째로 넣지 않는다.</li>
+          <li>세 번째 근거. 셋을 넘기면 청중이 잊는다.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TWO-COLUMN -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">compare</div>
+      <h1 class="title">두 갈래의 선택</h1>
+      <div class="two-column">
+        <div class="col"><div class="lbl">기존 방식</div><div class="body">설명을 여기에</div><p>부연 한 줄.</p></div>
+        <div class="col alt"><div class="lbl">개선 방식</div><div class="body">설명을 여기에</div><p>부연 한 줄.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS-SPLIT -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">metric</div>
+      <h1 class="title">숫자가 말한다</h1>
+      <div class="stats">
+        <div class="stat"><div class="v">312</div><div class="l">처리 건수 (월)</div></div>
+        <div class="stat alt"><div class="v">78%</div><div class="l">자동 응답 비율</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON-TABLE -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">table</div>
+      <h1 class="title">플랜 비교</h1>
+      <table class="cmp">
+        <thead><tr><th>항목</th><th>A 플랜</th><th>B 플랜</th><th>C 플랜</th></tr></thead>
+        <tbody>
+          <tr><th>가격</th><td>무료</td><td>9,900원</td><td>29,000원</td></tr>
+          <tr><th>사용자</th><td>1명</td><td>5명</td><td>무제한</td></tr>
+          <tr><th>지원</th><td class="no">없음</td><td class="yes">이메일</td><td class="yes">전담</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- STEPS-LIST -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">sequence</div>
+      <h1 class="title">세 단계로 끝난다</h1>
+      <div class="steps">
+        <div class="step"><span class="n">01</span><span class="nm">단계명</span><span class="d">설명을 여기에 한 줄로.</span></div>
+        <div class="step"><span class="n">02</span><span class="nm">단계명</span><span class="d">설명을 여기에 한 줄로.</span></div>
+        <div class="step"><span class="n">03</span><span class="nm">단계명</span><span class="d">설명을 여기에 한 줄로.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRINCIPLE -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">principle</div>
+      <h1 class="title">이렇게, 저렇게 말고</h1>
+      <div class="principle">
+        <div class="pp good"><span class="mk">[ DO ] 이렇게</span>지켜야 할 방식을 구체적으로.</div>
+        <div class="pp bad"><span class="mk">[ DONT ] 이렇게 말고</span>피해야 할 방식을 구체적으로.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">quote</div>
+      <div class="quote">
+        <blockquote>검증 없으면, 그저 예쁜 쓰레기다.</blockquote>
+        <div class="by">loop-kit 제1원칙</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CODE-SPLIT -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">example</div>
+      <h1 class="title">코드와 결과</h1>
+      <div class="code-split">
+        <div class="code"><div class="bar">verify.sh</div><pre><span class="dim"># 게이트 실행</span>
+bash verify.sh deck.html</pre></div>
+        <div class="code"><div class="bar">stdout</div><pre>슬라이드 수 : 11장
+<span class="str">✓ HARD 위반 0건</span> : 통과</pre></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE-INTRO -->
+  <section class="slide">
+    <div class="module-intro">
+      <div class="num">part 02</div>
+      <h2 class="ttl">실전 적용</h2>
+      <p class="sub">섹션을 여는 한 줄. 무엇을 다루는지 미리 예고한다.</p>
+    </div>
+  </section>
+
+  <!-- OUTRO -->
+  <section class="slide">
+    <div class="outro">
+      <div class="eyebrow">next</div>
+      <div class="big">오늘, 한 가지만 시작하라.</div>
+      <div class="cta">
+        <div class="row"><span class="k">now</span><span>템플릿 하나 복제해 첫 덱 만들기</span></div>
+        <div class="row"><span class="k">this week</span><span>verify 게이트를 워크플로에 붙이기</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="counter"><span id="cur">1</span> / <span id="tot">1</span></div>
+<script>
+(function(){
+  var slides=Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var i=0,buf='';
+  document.getElementById('tot').textContent=slides.length;
+  function show(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,idx){s.classList.toggle('active',idx===i);});
+    document.getElementById('cur').textContent=i+1;
+  }
+  document.addEventListener('keydown',function(e){
+    var t=e.target.tagName;
+    if(t==='INPUT'||t==='TEXTAREA')return;
+    switch(e.key){
+      case 'ArrowRight':case ' ':case 'PageDown':case 'j':case 'l':show(i+1);break;
+      case 'ArrowLeft':case 'PageUp':case 'k':case 'h':show(i-1);break;
+      case 'Home':show(0);break;
+      case 'End':show(slides.length-1);break;
+      case 'f':document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();break;
+      case 'Escape':if(document.fullscreenElement)document.exitFullscreen();break;
+      case 'Enter':if(buf){show(parseInt(buf,10)-1);buf='';}break;
+      default:if(/^[0-9]$/.test(e.key)){buf+=e.key;return;}
+    }
+    buf='';
+  });
+  var sx=0,sy=0;
+  document.addEventListener('touchstart',function(e){sx=e.changedTouches[0].clientX;sy=e.changedTouches[0].clientY;},{passive:true});
+  document.addEventListener('touchend',function(e){
+    var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>80&&Math.abs(dy)<40){dx<0?show(i+1):show(i-1);}
+  },{passive:true});
+  show(0);
+})();
+</script>
+</body>
+</html>

@@ -16,10 +16,18 @@ warn=0
 # ── HARD : 통과를 막는 규약 위반 ──────────────────────────────
 
 # 구두점 : em-dash(—)·en-dash(–) 금지 → 콜론(:)
+# 주의 : 한글이 섞인 파일에서 [—–] 문자클래스는 C/POSIX 로케일이면 한글 바이트를
+#        오탐한다. UTF-8 바이트열(\xe2\x80\x94 / \x93)로 직접 매칭해 로케일에 독립적으로 만든다.
+if echo | grep -qP '' 2>/dev/null; then
+  dash_hits=$(grep -nP '\xe2\x80\x94|\xe2\x80\x93' "$TARGET" || true)
+else
+  # PCRE(-P) 미지원 환경 폴백 : UTF-8 로케일을 강제하고 문자클래스 사용
+  dash_hits=$(LC_ALL=C.UTF-8 grep -nE "[—–]" "$TARGET" 2>/dev/null || true)
+fi
 while IFS= read -r line; do
   [[ -n "$line" ]] || continue
   echo "  ✗ [구두점 : em/en-dash → 콜론(:)] $line"; fail=$((fail + 1))
-done < <(grep -nE "[—–]" "$TARGET" || true)
+done < <(printf '%s\n' "$dash_hits")
 
 # 외부 JS 의존성 금지 (폰트·스타일 CDN은 허용)
 while IFS= read -r line; do

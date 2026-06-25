@@ -1,0 +1,298 @@
+<!doctype html>
+<!-- loop-kit / slide : 디자인 결 [에디토리얼]
+     정체성 : 세리프 헤드라인(Fraunces) + 산세리프 본문, 비대칭 그리드, 절제된 금/세이지 강조, 큰 여백.
+     산출 시 .html 로 저장. 색은 이 결 안에 포함되어 있다 (별도 색 선택 없음).
+     ★ 고정 프레임 : .frame > .eyebrow → .title → .lead/.body. 본문 measure(max-width)로 좌측쏠림 방지. -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>슬라이드 제목</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+:root{
+  /* 에디토리얼 팔레트 : 따뜻한 잉크 배경 + 종이빛 글자 + 금/세이지 강조 */
+  --bg-base:#12110c; --bg-elev:#1b1a13; --bg-code:#191811;
+  --fg:#f4efe3; --mute:#b3aa97; --dim:#766d5b;
+  --gold:#d6a64f; --sage:#86a594; --rust:#cc6a4c; --line:#2d2a20; --line-hi:#46412f;
+  --serif:'Fraunces',Georgia,serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --sans:'Pretendard',-apple-system,sans-serif;
+  --gutter-x:120px; --anchor-y:24vh; --measure:60ch;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:var(--bg-base);}
+body{font-family:var(--sans);color:var(--mute);overflow:hidden;word-break:keep-all;}
+
+.slide{position:absolute;inset:0;display:none;}
+.slide.active{display:block;animation:fade .26s cubic-bezier(.2,.8,.2,1);}
+@keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+@media(prefers-reduced-motion:reduce){.slide.active{animation:none;}}
+
+/* 고정 프레임 : 비대칭. 본문은 measure로 폭 제한 → 우측 공백 쏠림 방지 */
+.frame{position:absolute;left:var(--gutter-x);right:var(--gutter-x);top:var(--anchor-y);}
+.eyebrow{font-family:var(--mono);font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600;margin:0 0 22px;display:flex;align-items:center;gap:16px;}
+.eyebrow::after{content:'';flex:1;height:1px;background:var(--line-hi);max-width:220px;}
+.title{font-family:var(--serif);font-size:64px;font-weight:600;color:var(--fg);margin:0 0 26px;line-height:1.1;letter-spacing:-.01em;}
+.title.hero{font-size:clamp(60px,8vw,116px);font-weight:800;line-height:1.04;}
+.title em{font-style:italic;color:var(--gold);font-weight:400;}
+.lead{font-size:22px;line-height:1.65;color:var(--mute);max-width:var(--measure);}
+.body{margin-top:26px;max-width:var(--measure);}
+.body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:16px;}
+.body li{font-size:21px;line-height:1.6;color:var(--mute);padding-left:28px;position:relative;}
+.body li::before{content:'\203A';position:absolute;left:0;color:var(--gold);font-weight:600;}
+
+/* 폴리오 : 우상단 메타로 우측 균형 */
+.folio{position:fixed;top:30px;right:34px;font-family:var(--mono);font-size:14px;letter-spacing:.14em;color:var(--dim);text-align:right;z-index:10;text-transform:uppercase;}
+
+/* 모티프 */
+.mark{position:fixed;top:28px;left:30px;color:var(--gold);font-size:16px;z-index:10;}
+.counter{position:fixed;bottom:28px;right:34px;color:var(--dim);font-size:15px;z-index:10;font-family:var(--mono);}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
+
+/* two-column : 2단 비교 */
+.two-column{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:28px;}
+.col{padding:30px 32px;border-top:2px solid var(--line-hi);}
+.col .lbl{font-family:var(--mono);font-size:14px;letter-spacing:.16em;font-weight:600;color:var(--gold);margin-bottom:16px;text-transform:uppercase;}
+.col.alt .lbl{color:var(--sage);}
+.col .body{font-family:var(--serif);font-size:24px;color:var(--fg);line-height:1.45;margin-top:0;}
+.col p{font-size:20px;color:var(--mute);line-height:1.6;margin-top:12px;}
+
+/* stats-split : 수치 */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:30px;}
+.stat{padding:8px 4px;border-left:2px solid var(--line-hi);padding-left:28px;}
+.stat .v{font-family:var(--serif);font-size:96px;font-weight:800;line-height:.95;color:var(--fg);letter-spacing:-.03em;}
+.stat.alt .v{color:var(--gold);}
+.stat .l{margin-top:14px;font-size:19px;color:var(--mute);}
+
+/* comparison-table : 다축 비교표 */
+.cmp{width:100%;border-collapse:collapse;margin-top:28px;font-size:20px;}
+.cmp th,.cmp td{text-align:left;padding:18px 20px;border-bottom:1px solid var(--line);}
+.cmp thead th{font-family:var(--mono);font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600;border-bottom:2px solid var(--line-hi);}
+.cmp tbody th{font-family:var(--serif);color:var(--fg);font-weight:600;}
+.cmp td{color:var(--mute);}
+.cmp .yes{color:var(--sage);} .cmp .no{color:var(--rust);}
+
+/* steps-list : 순차 절차 */
+.steps{display:flex;flex-direction:column;gap:4px;margin-top:28px;max-width:880px;}
+.step{display:flex;align-items:baseline;gap:28px;padding:22px 0;border-bottom:1px solid var(--line);}
+.step .n{font-family:var(--serif);font-style:italic;font-size:34px;color:var(--gold);min-width:54px;}
+.step .nm{font-size:23px;font-weight:600;color:var(--fg);min-width:180px;flex-shrink:0;}
+.step .d{font-size:19px;color:var(--mute);flex:1;line-height:1.55;}
+
+/* principle : Good/Bad */
+.principle{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px;}
+.pp{padding:26px 30px;font-size:22px;line-height:1.5;}
+.pp .mk{font-family:var(--serif);font-style:italic;font-size:20px;display:block;margin-bottom:12px;}
+.pp.good{border-top:2px solid var(--sage);color:var(--fg);}
+.pp.good .mk{color:var(--sage);}
+.pp.bad{border-top:2px solid var(--rust);color:var(--mute);}
+.pp.bad .mk{color:var(--rust);}
+
+/* quote : 인용 */
+.quote{margin-top:24px;max-width:18ch;}
+.quote blockquote{font-family:var(--serif);font-size:clamp(40px,5vw,68px);font-weight:400;font-style:italic;line-height:1.15;color:var(--fg);letter-spacing:-.01em;}
+.quote .by{margin-top:30px;font-family:var(--mono);font-size:16px;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;max-width:none;}
+.quote.wide,.quote.wide blockquote{max-width:24ch;}
+
+/* code / code-split : 코드, 코드+결과 */
+.code{margin-top:26px;border:1px solid var(--line-hi);border-radius:6px;overflow:hidden;}
+.code .bar{font-family:var(--mono);font-size:14px;color:var(--dim);padding:12px 20px;border-bottom:1px solid var(--line);background:var(--bg-elev);letter-spacing:.08em;}
+.code pre{font-family:var(--mono);font-size:19px;line-height:1.7;color:var(--fg);padding:24px 26px;background:var(--bg-code);overflow:auto;}
+.code-split{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:26px;}
+.code-split .code{margin-top:0;}
+.code .tok{color:var(--gold);} .code .str{color:var(--sage);} .code .dim{color:var(--dim);}
+
+/* module-intro : 섹션 인트로 */
+.module-intro{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 var(--gutter-x);}
+.module-intro .num{font-family:var(--mono);font-size:16px;letter-spacing:.26em;color:var(--gold);text-transform:uppercase;margin-bottom:24px;}
+.module-intro .ttl{font-family:var(--serif);font-size:clamp(64px,9vw,128px);font-weight:800;line-height:1.02;color:var(--fg);letter-spacing:-.02em;}
+.module-intro .ttl em{font-style:italic;color:var(--gold);font-weight:400;}
+.module-intro .sub{margin-top:24px;font-size:22px;color:var(--mute);max-width:52ch;line-height:1.55;}
+
+/* outro : 마무리 + 행동 촉구 */
+.outro{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 var(--gutter-x);}
+.outro .eyebrow{color:var(--sage);}
+.outro .big{font-family:var(--serif);font-size:clamp(48px,6vw,88px);font-weight:800;line-height:1.05;color:var(--fg);letter-spacing:-.02em;max-width:18ch;}
+.outro .cta{margin-top:36px;display:flex;flex-direction:column;gap:14px;max-width:60ch;}
+.outro .cta .row{display:flex;align-items:baseline;gap:20px;font-size:22px;color:var(--fg);}
+.outro .cta .row .k{font-family:var(--mono);font-size:15px;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;min-width:120px;flex-shrink:0;}
+</style>
+</head>
+<body>
+  <div class="mark">✦</div>
+  <div class="folio">EDITORIAL DECK<br>2026</div>
+
+  <!-- HERO -->
+  <section class="slide active">
+    <div class="frame">
+      <div class="eyebrow">Section 01</div>
+      <h1 class="title hero">핵심은 <em>한 문장</em>으로<br>충분하다</h1>
+      <p class="lead">부제는 한 줄로. 청중이 이 장에서 무엇을 가져가는지 여기서 정해진다.</p>
+    </div>
+  </section>
+
+  <!-- CONTENT (measure 적용 : 본문이 우측으로 안 쏠림) -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">맥락</div>
+      <h1 class="title">왜 지금 이 이야기인가</h1>
+      <div class="body">
+        <ul>
+          <li>주장을 떠받치는 첫 번째 근거. 한 줄로 끊어 읽히게 쓴다.</li>
+          <li>두 번째 근거. 문단을 통째로 넣지 않는다.</li>
+          <li>세 번째 근거. 셋을 넘기면 청중이 잊는다.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TWO-COLUMN -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">대비</div>
+      <h1 class="title">두 갈래의 선택</h1>
+      <div class="two-column">
+        <div class="col"><div class="lbl">기존 방식</div><div class="body">설명을 여기에</div><p>부연 한 줄.</p></div>
+        <div class="col alt"><div class="lbl">개선 방식</div><div class="body">설명을 여기에</div><p>부연 한 줄.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS-SPLIT -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">수치</div>
+      <h1 class="title">숫자가 말한다</h1>
+      <div class="stats">
+        <div class="stat"><div class="v">312</div><div class="l">처리 건수 (월)</div></div>
+        <div class="stat alt"><div class="v">78%</div><div class="l">자동 응답 비율</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON-TABLE (신규) -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">비교표</div>
+      <h1 class="title">플랜 비교</h1>
+      <table class="cmp">
+        <thead><tr><th>항목</th><th>A 플랜</th><th>B 플랜</th><th>C 플랜</th></tr></thead>
+        <tbody>
+          <tr><th>가격</th><td>무료</td><td>9,900원</td><td>29,000원</td></tr>
+          <tr><th>사용자</th><td>1명</td><td>5명</td><td>무제한</td></tr>
+          <tr><th>지원</th><td class="no">없음</td><td class="yes">이메일</td><td class="yes">전담</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- STEPS-LIST -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">절차</div>
+      <h1 class="title">세 단계로 끝난다</h1>
+      <div class="steps">
+        <div class="step"><span class="n">i</span><span class="nm">단계명</span><span class="d">설명을 여기에 한 줄로.</span></div>
+        <div class="step"><span class="n">ii</span><span class="nm">단계명</span><span class="d">설명을 여기에 한 줄로.</span></div>
+        <div class="step"><span class="n">iii</span><span class="nm">단계명</span><span class="d">설명을 여기에 한 줄로.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRINCIPLE -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">원칙</div>
+      <h1 class="title">이렇게, 저렇게 말고</h1>
+      <div class="principle">
+        <div class="pp good"><span class="mk">이렇게</span>지켜야 할 방식을 구체적으로.</div>
+        <div class="pp bad"><span class="mk">이렇게 말고</span>피해야 할 방식을 구체적으로.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE (신규) -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">인용</div>
+      <div class="quote">
+        <blockquote>검증 없으면, 그저 예쁜 쓰레기다.</blockquote>
+        <div class="by">loop-kit 제1원칙</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CODE-SPLIT (신규) -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">예제</div>
+      <h1 class="title">코드와 결과</h1>
+      <div class="code-split">
+        <div class="code"><div class="bar">verify.sh</div><pre><span class="dim"># 게이트 실행</span>
+bash verify.sh deck.html</pre></div>
+        <div class="code"><div class="bar">출력</div><pre>슬라이드 수 : 9장
+<span class="str">✓ HARD 위반 0건</span> : 통과</pre></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE-INTRO -->
+  <section class="slide">
+    <div class="module-intro">
+      <div class="num">Part 02</div>
+      <h2 class="ttl">실전 <em>적용</em></h2>
+      <p class="sub">섹션을 여는 한 줄. 무엇을 다루는지 미리 예고한다.</p>
+    </div>
+  </section>
+
+  <!-- OUTRO (신규) : 행동 촉구 -->
+  <section class="slide">
+    <div class="outro">
+      <div class="eyebrow">다음 행동</div>
+      <div class="big">오늘, 한 가지만 시작하라.</div>
+      <div class="cta">
+        <div class="row"><span class="k">지금</span><span>템플릿 하나 복제해 첫 덱 만들기</span></div>
+        <div class="row"><span class="k">이번 주</span><span>verify 게이트를 워크플로에 붙이기</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="counter"><span id="cur">1</span> / <span id="tot">1</span></div>
+<script>
+(function(){
+  var slides=Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var i=0,buf='';
+  document.getElementById('tot').textContent=slides.length;
+  function show(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,idx){s.classList.toggle('active',idx===i);});
+    document.getElementById('cur').textContent=i+1;
+  }
+  document.addEventListener('keydown',function(e){
+    var t=e.target.tagName;
+    if(t==='INPUT'||t==='TEXTAREA')return;
+    switch(e.key){
+      case 'ArrowRight':case ' ':case 'PageDown':case 'j':case 'l':show(i+1);break;
+      case 'ArrowLeft':case 'PageUp':case 'k':case 'h':show(i-1);break;
+      case 'Home':show(0);break;
+      case 'End':show(slides.length-1);break;
+      case 'f':document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();break;
+      case 'Escape':if(document.fullscreenElement)document.exitFullscreen();break;
+      case 'Enter':if(buf){show(parseInt(buf,10)-1);buf='';}break;
+      default:if(/^[0-9]$/.test(e.key)){buf+=e.key;return;}
+    }
+    buf='';
+  });
+  var sx=0,sy=0;
+  document.addEventListener('touchstart',function(e){sx=e.changedTouches[0].clientX;sy=e.changedTouches[0].clientY;},{passive:true});
+  document.addEventListener('touchend',function(e){
+    var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>80&&Math.abs(dy)<40){dx<0?show(i+1):show(i-1);}
+  },{passive:true});
+  show(0);
+})();
+</script>
+</body>
+</html>

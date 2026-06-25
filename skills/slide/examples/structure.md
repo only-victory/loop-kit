@@ -4,11 +4,17 @@
 
 ## 베이스
 
-완성형 보일러플레이트를 복제해 시작한다 (디자인 토큰·키보드/터치 내비·카운터·접근성 내장):
+0단계에서 고른 **디자인 결**의 완성형 보일러플레이트를 복제해 시작한다 (폰트·색·키보드/터치 내비·카운터·접근성 내장):
 
 ```
-skills/slide/templates/deck.html.txt   →  복제 후 .html 로 저장
+skills/slide/templates/deck.editorial.html.txt   에디토리얼 (다크 지면)
+skills/slide/templates/deck.swiss.html.txt        스위스 그리드 (라이트)
+skills/slide/templates/deck.retro.html.txt        레트로 터미널 (네온, edu 팔레트)
+skills/slide/templates/deck.soft.html.txt          소프트 글래스 (인디고)
+        →  하나 복제 후 .html 로 저장
 ```
+
+각 결은 같은 컴포넌트 클래스를 공유한다(content·two-column·stats-split·comparison-table·steps-list·principle·quote·code·module-intro·outro). 더 특수한 컴포넌트(diagram-flow·definition-card·prompt-box·failure-mode·session-index·curriculum·assignment·image)가 필요하면 확장 카탈로그 `templates/deck.html.txt`에서 가져온다.
 
 각 `<section class="slide">` 안에 한 장씩 채운다. **한 장 = 메시지 한 개.**
 
