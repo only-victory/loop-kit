@@ -21,9 +21,12 @@
 
 # 2. 플러그인 설치
 /plugin install loop-kit@loop-kit
+
+# 3. 플러그인 리로드 (설치 후 반드시)
+/reload-plugins
 ```
 
-설치 후 스킬은 네임스페이스가 붙는다 : `/loop-kit:humanize`
+리로드 후 스킬은 네임스페이스가 붙는다 : `/loop-kit:humanize`
 
 ## 스킬 카탈로그
 
