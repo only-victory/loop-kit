@@ -19,7 +19,7 @@
     --success:#4ade80; --warning:#fbbf24; --danger:#ff6b7a; --info:#60a5fa;
     /* 레이아웃 고정값 : 모든 슬라이드가 공유한다 */
     --gutter-x:128px;   /* 좌우 거터 */
-    --anchor-y:26vh;    /* 제목(eyebrow) 시작 높이 — 장마다 동일 */
+    --anchor-y:26vh;    /* 제목(eyebrow) 시작 높이 : 장마다 동일 */
   }
   *{box-sizing:border-box;}
   html,body{margin:0;height:100%;}
