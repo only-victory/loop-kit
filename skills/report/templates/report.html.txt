@@ -1,0 +1,60 @@
+<!doctype html>
+<!-- loop-kit / report 완성형 베이스. 복제해 내용을 채운 뒤 .html로 저장한다.
+     외부 의존성 0 (CSS 인라인). 인쇄(PDF 저장) 친화적. 결론 먼저(역피라미드). -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>보고서 제목</title>
+<style>
+  :root{
+    --ink:#1a1a22; --muted:#5a5a68; --line:#e2e4ec; --bg:#ffffff;
+    --accent:#3b6cff; --soft:#f4f6fb; --warn:#b9821a; --danger:#d63d52;
+  }
+  *{box-sizing:border-box;}
+  body{max-width:760px; margin:48px auto; padding:0 24px;
+       font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+       color:var(--ink); line-height:1.7; font-size:16px;}
+  h1{font-size:28px; margin:0 0 4px; line-height:1.25;}
+  .meta{color:var(--muted); font-size:14px; margin:0 0 24px;}
+  h2{font-size:20px; margin:32px 0 12px; padding-top:8px; border-top:1px solid var(--line);}
+  .summary{background:var(--soft); border:1px solid var(--line); border-radius:10px;
+           padding:18px 20px; margin:0 0 8px;}
+  .summary strong{color:var(--accent);}
+  table{border-collapse:collapse; width:100%; margin:12px 0; font-size:15px;}
+  th,td{border:1px solid var(--line); padding:8px 10px; text-align:left;}
+  th{background:var(--soft);}
+  .source{color:var(--muted); font-size:13px;}
+  .flag{color:var(--warn); font-weight:600;}
+  @media print{
+    body{margin:0; max-width:none; font-size:12pt;}
+    h2{break-after:avoid;}
+  }
+</style>
+</head>
+<body>
+  <h1>보고서 제목 : 한 줄로 핵심까지</h1>
+  <p class="meta">작성일 : 2026-00-00 · 작성자 : 팀/이름 · 대상 : 경영진</p>
+
+  <!-- 결론 먼저 (역피라미드) -->
+  <div class="summary">
+    <strong>요약 :</strong> 가장 중요한 결론을 3~5줄로. 바쁜 독자는 여기까지만 읽고 판단한다.
+  </div>
+
+  <h2>1. 핵심 수치</h2>
+  <table>
+    <tr><th>지표</th><th>값</th><th>전기 대비</th></tr>
+    <tr><td>예시 지표</td><td>78%</td><td>+5%p</td></tr>
+  </table>
+  <p class="source">출처 : 사내 설문 (N=120, 응답률 78%, 2026-06)</p>
+
+  <h2>2. 해석</h2>
+  <p>수치가 무엇을 뜻하는지. 원인과 함의를 잇는다.</p>
+
+  <h2>3. 근거 · 한계</h2>
+  <p>데이터 출처와 가정. <span class="flag">한계 :</span> 단일 분기 데이터로 추세 단정 불가.</p>
+
+  <h2>4. 권고 · 다음 액션</h2>
+  <p>그래서 무엇을 할지. 의사결정이 필요하면 명시한다.</p>
+</body>
+</html>
