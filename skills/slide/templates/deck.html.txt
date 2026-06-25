@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- loop-kit / slide 완성형 베이스 v2 — edu 디자인 시스템 통합
+<!-- loop-kit / slide 완성형 베이스 v2 : edu 디자인 시스템 통합
      확장자 .txt (산출물 .html과 구분). 산출 시 .html로 저장.
      ★ 고정 프레임 : .frame > .eyebrow → .title → .lead / .body 순서.
        좌측 거터(--gutter-x)·제목 높이(--anchor-y)가 장마다 동일해야 한다. -->
@@ -12,7 +12,7 @@
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
 <style>
 :root{
-  /* edu 팔레트 — 프로젝터 현장 검증 완료 */
+  /* edu 팔레트 : 프로젝터 현장 검증 완료 */
   --bg-base:#08080c; --bg-elev:#16161e; --bg-code:#1b1b26;
   --fg:#f5f5fa; --mute:#c2c2d0; --dim:#6b6b80;
   --cyan:#1ae0ff; --green:#3df58a; --yellow:#ffd91f;
@@ -38,7 +38,7 @@ body{font-family:var(--sans);color:var(--mute);overflow:hidden;word-break:keep-a
 .eyebrow{font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);font-family:var(--mono);font-weight:700;margin:0 0 16px;}
 .title{font-size:60px;font-weight:700;color:var(--fg);margin:0 0 24px;line-height:1.14;}
 .title.hero{font-size:clamp(58px,7.5vw,108px);font-weight:800;line-height:1.08;}
-.lead{font-size:20px;line-height:1.6;color:var(--mute);max-width:60ch;}
+.lead{font-size:20px;line-height:1.6;color:var(--mute);}
 .body{margin-top:24px;}
 .body ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:10px;}
 .body li{font-size:20px;line-height:1.7;color:var(--mute);}
@@ -134,6 +134,38 @@ body{font-family:var(--sans);color:var(--mute);overflow:hidden;word-break:keep-a
 .prompt-box .lbl{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.22em;color:var(--cyan);margin-bottom:16px;text-transform:uppercase;}
 .prompt-box.ye .lbl{color:var(--yellow);} .prompt-box.pu .lbl{color:var(--purple);}
 .prompt-box .body{font-family:var(--mono);font-size:19px;color:var(--fg);line-height:1.75;white-space:pre-wrap;}
+
+/* ── 커리큘럼 목차 ── */
+.curriculum{display:flex;flex-direction:column;gap:12px;margin-top:24px;}
+.curr-item{display:flex;align-items:center;gap:24px;padding:18px 28px;border:1px solid var(--border);border-radius:12px;background:var(--bg-elev);}
+.curr-item.active{border-color:rgba(26,224,255,.4);background:rgba(26,224,255,.04);}
+.curr-item .ci-n{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.2em;color:var(--cyan);min-width:64px;flex-shrink:0;}
+.curr-item.active .ci-n{color:var(--cyan);}
+.curr-item .ci-t{font-size:22px;font-weight:700;color:var(--fg);flex:1;}
+.curr-item .ci-d{font-size:17px;color:var(--mute);}
+
+/* ── 세션 인덱스 ── */
+.session-index{display:flex;flex-direction:column;gap:16px;position:absolute;inset:0;justify-content:center;padding:0 var(--gutter-x);}
+.session-index .si-tag{font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:.28em;color:var(--cyan);text-transform:uppercase;}
+.session-index .si-title{font-size:clamp(64px,8vw,112px);font-weight:800;color:var(--fg);line-height:1.04;letter-spacing:-.03em;}
+
+/* ── 이미지 ── */
+.img-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:24px;}
+.img-wrap img{max-width:100%;max-height:52vh;object-fit:contain;border-radius:12px;border:1px solid var(--border);}
+.img-caption{font-size:17px;color:var(--dim);text-align:center;}
+
+/* ── 실패 패턴 ── */
+.failure-mode{padding:36px 40px;border:1px solid rgba(255,107,120,.4);border-left:6px solid var(--red);border-radius:16px;background:rgba(255,107,120,.06);margin-top:24px;}
+.failure-mode .fm-tag{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.22em;color:var(--red);text-transform:uppercase;margin-bottom:14px;}
+.failure-mode .fm-title{font-size:32px;font-weight:700;color:var(--fg);margin-bottom:16px;}
+.failure-mode .fm-body{font-size:20px;color:var(--mute);line-height:1.6;}
+
+/* ── 과제 체크리스트 ── */
+.assignment{display:flex;flex-direction:column;gap:10px;margin-top:24px;}
+.assign-item{display:flex;align-items:flex-start;gap:18px;padding:18px 24px;border:1px solid var(--border);border-radius:12px;background:var(--bg-elev);}
+.assign-chk{width:22px;height:22px;border:2px solid var(--border-hi);border-radius:6px;flex-shrink:0;margin-top:4px;}
+.assign-text .at{font-size:21px;font-weight:600;color:var(--fg);line-height:1.4;}
+.assign-text .as{font-size:17px;color:var(--mute);margin-top:4px;}
 </style>
 </head>
 <body>
@@ -186,6 +218,84 @@ body{font-family:var(--sans);color:var(--mute);overflow:hidden;word-break:keep-a
       <h2 class="ttl"><span class="grad">섹션 제목</span></h2>
       <p class="sub">한 줄 부제</p>
       <div class="bar"></div>
+    </div>
+  </section>
+
+  <!-- ===== CURRICULUM ===== -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">AGENDA</div>
+      <h1 class="title">오늘 다룰 내용</h1>
+      <div class="curriculum">
+        <div class="curr-item active"><span class="ci-n">01</span><span class="ci-t">섹션 제목</span><span class="ci-d">부연 설명</span></div>
+        <div class="curr-item"><span class="ci-n">02</span><span class="ci-t">섹션 제목</span><span class="ci-d">부연 설명</span></div>
+        <div class="curr-item"><span class="ci-n">03</span><span class="ci-t">섹션 제목</span><span class="ci-d">부연 설명</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SESSION INDEX ===== -->
+  <section class="slide">
+    <div class="session-index">
+      <div class="si-tag">SESSION 01</div>
+      <h1 class="si-title"><span class="grad">세션 제목</span></h1>
+    </div>
+  </section>
+
+  <!-- ===== IMAGE ===== -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">REFERENCE</div>
+      <h1 class="title">이미지 슬라이드</h1>
+      <div class="img-wrap">
+        <img src="이미지-경로.png" alt="설명">
+        <p class="img-caption">캡션 : 출처 또는 설명</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BLANK ===== -->
+  <!-- blank : .frame 없이 완전 자유 배치. 좌상단 ✦ · 우하단 카운터만 유지. -->
+  <section class="slide">
+    <!-- 자유 레이아웃 : 위치·크기 직접 지정 -->
+  </section>
+
+  <!-- ===== FAILURE MODE ===== -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">FAILURE MODE</div>
+      <h1 class="title">이 패턴은 반드시 실패한다</h1>
+      <div class="failure-mode">
+        <div class="fm-tag">FAILURE MODE</div>
+        <div class="fm-title">실패 패턴 제목</div>
+        <div class="fm-body">왜 실패하는지, 어디서 무너지는지 설명한다. 예시나 수치를 넣으면 더 강렬하다.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROMPT BOX ===== -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">PROMPT EXAMPLE</div>
+      <h1 class="title">이렇게 써보세요</h1>
+      <div class="prompt-box">
+        <div class="lbl">PROMPT</div>
+        <div class="body">프롬프트 예시를 여기에 작성합니다.
+줄바꿈이 그대로 유지됩니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ASSIGNMENT ===== -->
+  <section class="slide">
+    <div class="frame">
+      <div class="eyebrow">ASSIGNMENT</div>
+      <h1 class="title">지금 바로 해보세요</h1>
+      <div class="assignment">
+        <div class="assign-item"><div class="assign-chk"></div><div class="assign-text"><div class="at">과제 항목 1</div><div class="as">구체적인 지시사항</div></div></div>
+        <div class="assign-item"><div class="assign-chk"></div><div class="assign-text"><div class="at">과제 항목 2</div><div class="as">구체적인 지시사항</div></div></div>
+        <div class="assign-item"><div class="assign-chk"></div><div class="assign-text"><div class="at">과제 항목 3</div><div class="as">구체적인 지시사항</div></div></div>
+      </div>
     </div>
   </section>
 
