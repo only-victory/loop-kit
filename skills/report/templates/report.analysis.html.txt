@@ -1,0 +1,207 @@
+<!doctype html>
+<!-- loop-kit / report : 보고서 결 [분석 보고결 Deep Analysis]
+     목적 : 실무자가 데이터와 근거를 따라가며 인사이트를 이해하고 행동을 결정한다.
+     원칙 : 요약 먼저 → 배경 → 데이터·분석 → 인사이트 → 한계 → 권고. 출처 전부 명시.
+     CSS는 <style>에 인라인. 외부 CDN 0개. @media print 필수. -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>보고서 제목</title>
+<style>
+:root{
+  --bg:#f9fafb; --surface:#ffffff; --border:#e5e7eb;
+  --text-hi:#111827; --text-md:#374151; --text-lo:#9ca3af;
+  --blue:#1e40af; --blue-light:#eff6ff; --blue-border:#bfdbfe;
+  --green:#166534; --green-light:#f0fdf4; --green-border:#bbf7d0;
+  --amber:#92400e; --amber-light:#fffbeb; --amber-border:#fde68a;
+  --sans:-apple-system,'Segoe UI','Pretendard',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --max:900px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--sans);background:var(--bg);color:var(--text-md);line-height:1.7;word-break:keep-all;}
+.wrap{max-width:var(--max);margin:0 auto;padding:48px 32px 80px;}
+
+/* 헤더 */
+.doc-meta{font-family:var(--mono);font-size:13px;color:var(--text-lo);margin-bottom:8px;display:flex;gap:20px;flex-wrap:wrap;}
+h1{font-size:32px;font-weight:700;color:var(--text-hi);line-height:1.25;letter-spacing:-.02em;margin-bottom:6px;}
+.subtitle{font-size:17px;color:var(--text-lo);margin-bottom:12px;}
+.toc{font-size:14px;color:var(--text-lo);margin-bottom:36px;display:flex;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--border);padding-bottom:14px;}
+.toc a{color:var(--blue);text-decoration:none;}
+
+/* 요약 (결론 먼저) */
+.summary-box{background:var(--blue-light);border:1px solid var(--blue-border);border-left:4px solid var(--blue);padding:24px 28px;border-radius:6px;margin-bottom:36px;}
+.summary-box .label{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;}
+.summary-box .conclusion{font-size:18px;font-weight:600;color:var(--text-hi);line-height:1.5;margin-bottom:12px;}
+.summary-box ul{padding-left:18px;display:flex;flex-direction:column;gap:6px;}
+.summary-box li{font-size:15px;color:var(--text-md);}
+
+/* 섹션 */
+.section{margin-bottom:40px;}
+.section h2{font-size:22px;font-weight:700;color:var(--text-hi);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--border);}
+.section h3{font-size:17px;font-weight:600;color:var(--text-hi);margin-bottom:10px;margin-top:24px;}
+.section p{font-size:16px;line-height:1.75;margin-bottom:12px;}
+
+/* KPI 인라인 수치 강조 */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:16px 0 24px;}
+.kpi{background:var(--surface);border:1px solid var(--border);padding:20px 18px;border-radius:6px;text-align:center;}
+.kpi .v{font-size:38px;font-weight:700;color:var(--text-hi);letter-spacing:-.02em;line-height:1.1;}
+.kpi .l{font-size:13px;color:var(--text-lo);margin-top:6px;}
+.kpi .src{font-family:var(--mono);font-size:12px;color:var(--text-lo);margin-top:4px;}
+
+/* 인사이트 박스 */
+.insight-box{background:var(--green-light);border:1px solid var(--green-border);border-left:4px solid var(--green);padding:20px 24px;border-radius:4px;margin:16px 0;}
+.insight-box .label{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:8px;}
+.insight-box p{font-size:16px;color:var(--text-hi);font-weight:500;line-height:1.55;}
+
+/* 데이터 표 */
+.data-table{width:100%;border-collapse:collapse;font-size:15px;margin:14px 0;}
+.data-table th{text-align:left;padding:10px 14px;background:var(--text-hi);color:#f9fafb;font-size:13px;font-weight:600;letter-spacing:.04em;}
+.data-table td{padding:10px 14px;border-bottom:1px solid var(--border);}
+.data-table tr:hover td{background:var(--blue-light);}
+.data-table .num{text-align:right;font-family:var(--mono);}
+.data-table .pos{color:var(--green);font-weight:600;} .data-table .neg{color:#b91c1c;font-weight:600;}
+
+/* 한계·주의 */
+.risk-box{background:var(--amber-light);border:1px solid var(--amber-border);border-left:4px solid #d97706;padding:18px 22px;border-radius:4px;margin:14px 0;font-size:15px;color:var(--amber);line-height:1.6;}
+.risk-box .label{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#d97706;margin-bottom:8px;}
+
+/* 권고 */
+.action-box{background:#f0fdf4;border:1px solid var(--green-border);border-left:4px solid var(--green);padding:22px 26px;border-radius:4px;margin-bottom:32px;}
+.action-box .label{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:12px;}
+.action-box ol{padding-left:20px;display:flex;flex-direction:column;gap:8px;}
+.action-box li{font-size:16px;color:var(--text-hi);}
+
+/* 각주·출처 */
+.footnote{font-size:13px;color:var(--text-lo);border-top:1px solid var(--border);padding-top:20px;margin-top:48px;line-height:1.8;}
+.footnote h4{font-size:13px;font-weight:600;color:var(--text-md);margin-bottom:8px;}
+
+@media print{
+  body{background:#fff;font-size:14px;}
+  .wrap{padding:20px 16px;}
+  .toc{display:none;}
+  .summary-box,.action-box,.insight-box,.risk-box{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+}
+@media(max-width:640px){.kpi-row{grid-template-columns:1fr 1fr;}.wrap{padding:28px 16px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 헤더 -->
+  <div class="doc-meta">
+    <span>작성일 : 2026-00-00</span>
+    <span>작성 : OOO</span>
+    <span>대상 : 실무자·팀원</span>
+    <span>분류 : 내부 한정</span>
+  </div>
+  <h1>분석 보고서 제목 : 결론이 제목이 된다</h1>
+  <p class="subtitle">분석 범위 또는 기간 한 줄</p>
+  <div class="toc">
+    <a href="#summary">요약</a>
+    <a href="#background">배경</a>
+    <a href="#analysis">분석</a>
+    <a href="#insight">인사이트</a>
+    <a href="#limits">한계</a>
+    <a href="#action">권고</a>
+  </div>
+
+  <!-- ① 요약 (결론 먼저) -->
+  <div id="summary" class="summary-box">
+    <div class="label">요약 (결론)</div>
+    <div class="conclusion">이 분석이 전하는 핵심 한 문장. 상세 분석을 읽지 않아도 결론을 알 수 있어야 한다.</div>
+    <ul>
+      <li>주요 발견 1 : 구체적 수치 포함</li>
+      <li>주요 발견 2 : 구체적 수치 포함</li>
+      <li>주요 발견 3 : 구체적 수치 포함</li>
+    </ul>
+  </div>
+
+  <!-- ② 핵심 수치 -->
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="v">312</div>
+      <div class="l">수치 레이블</div>
+      <div class="src">출처 · 기준일</div>
+    </div>
+    <div class="kpi">
+      <div class="v">78%</div>
+      <div class="l">수치 레이블</div>
+      <div class="src">출처 · 기준일</div>
+    </div>
+    <div class="kpi">
+      <div class="v">2.4x</div>
+      <div class="l">수치 레이블</div>
+      <div class="src">출처 · 기준일</div>
+    </div>
+  </div>
+
+  <!-- ③ 배경·맥락 -->
+  <div id="background" class="section">
+    <h2>배경</h2>
+    <p>왜 이 분석이 필요한가. 분석의 질문을 명확히 한다. "OO에 대해 분석했다"가 아니라 "OO라는 문제를 이해하기 위해 OO를 분석했다"로.</p>
+    <h3>분석 범위 및 방법</h3>
+    <p>어떤 데이터로, 어떤 방법으로, 어떤 기간을 분석했는지. 독자가 신뢰성을 판단할 수 있게 한다.</p>
+  </div>
+
+  <!-- ④ 데이터·분석 -->
+  <div id="analysis" class="section">
+    <h2>분석</h2>
+    <h3>소제목 1</h3>
+    <p>분석 내용. 수치는 출처와 함께. 표를 써야 할 때는 데이터 표를 사용한다.</p>
+    <table class="data-table">
+      <thead>
+        <tr><th>항목</th><th>A</th><th>B</th><th class="num">변화율</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>항목 1</td><td>값</td><td>값</td><td class="num pos">+12%</td></tr>
+        <tr><td>항목 2</td><td>값</td><td>값</td><td class="num neg">-8%</td></tr>
+        <tr><td>항목 3</td><td>값</td><td>값</td><td class="num">0%</td></tr>
+      </tbody>
+    </table>
+    <h3>소제목 2</h3>
+    <p>두 번째 분석 섹션. 소제목이 많아지면 분석이 파편화된다. 3개 이내로.</p>
+  </div>
+
+  <!-- ⑤ 인사이트 -->
+  <div id="insight" class="section">
+    <h2>인사이트</h2>
+    <div class="insight-box">
+      <div class="label">핵심 인사이트</div>
+      <p>데이터에서 무엇을 읽었나. "OO 수치가 높다"는 데이터다. "OO가 높기 때문에 XX가 발생한다"가 인사이트다.</p>
+    </div>
+    <p>인사이트를 뒷받침하는 설명. 인사이트는 데이터를 해석한 것이지 데이터 자체가 아니다.</p>
+  </div>
+
+  <!-- ⑥ 한계·주의 -->
+  <div id="limits" class="section">
+    <h2>한계 및 주의 사항</h2>
+    <div class="risk-box">
+      <div class="label">데이터 한계</div>
+      모든 분석에는 한계가 있다. 샘플 편향, 데이터 누락, 측정 오차, 인과관계와 상관관계 혼동 등을 명시한다. 한계를 숨기면 신뢰성이 떨어진다.
+    </div>
+  </div>
+
+  <!-- ⑦ 권고 -->
+  <div id="action" class="action-box">
+    <div class="label">권고 행동</div>
+    <ol>
+      <li>인사이트에서 직접 도출된 권고 1 (구체적 행동으로)</li>
+      <li>권고 2 (담당자·기한 포함 권장)</li>
+      <li>후속 분석이 필요하면 여기서 제안</li>
+    </ol>
+  </div>
+
+  <!-- 각주·출처 -->
+  <div class="footnote">
+    <h4>출처 및 방법론</h4>
+    데이터 출처 1 : 시스템명, 기간, 수집 방법<br>
+    데이터 출처 2 : 시스템명, 기간, 수집 방법<br>
+    분석 방법 : 사용한 통계 방법, 도구, 가정<br>
+    작성일 기준. 이후 데이터는 반영되지 않음.
+  </div>
+
+</div>
+</body>
+</html>

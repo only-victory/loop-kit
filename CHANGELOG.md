@@ -2,6 +2,33 @@
 
 이 프로젝트의 모든 주요 변경을 기록한다. [SemVer](https://semver.org/lang/ko/)를 따른다.
 
+## [0.8.0] : 2026-06-25
+
+### 개편 (humanize·report·promo 전 스킬 품질 퀀텀점프)
+
+**humanize : 문체 결 4종 시스템 도입**
+- "AI 슬롭 제거"에서 "문체 결(writing grain) 재설계"로 개념 전환
+- 결 4종 신규 : 공식 문서결 / 에세이·칼럼결 / 대화·협업결 / SNS·카드결
+- 각 결 : 어휘·문장 길이·어미·단락 구조·금지 어법·리듬 목표까지 통째로 정의
+- `reference/writing-grains.md` 신규 : 결별 명세 + 모델 before→after 전 결
+
+**report : 보고서 결 3종 + 템플릿 3종 신규**
+- 단일 템플릿 → 보고서 결 3종(임원 요약 / 분석 보고 / 현황 보고)으로 분화
+- 임원 요약결 : 결론 먼저·KPI·권고 행동, 1~2 스크롤 이내
+- 분석 보고결 : 배경→데이터→인사이트→한계→권고, 출처 전부 명시
+- 현황 보고결 : 상태 배지(On Track/At Risk/Delayed)·이슈·조치·타임라인
+- `reference/report-grains.md` 신규 : 결별 독자·목적·섹션 순서·어조 명세
+- `verify.sh` 업그레이드 : h1을 HARD로, 요약·권고 섹션 WARN 추가
+
+**promo : 색 테마 4종 → 디자인 결 4종 (slide와 동일 방식)**
+- 프리미엄 다크 : Noto Serif KR 세리프·금/크림, 고급 브랜드
+- 모던 클린 : Archivo 그로테스크·블루 포인트, 기업/테크
+- 에너지 임팩트 : 빅 타이포·오렌지, 부트캠프/집중 과정
+- 소프트 아카데믹 : 둥근 카드·세이지 그린, 학원/대학
+- `reference/themes.md` 삭제 → `reference/design-languages.md`로 대체
+- `verify.sh` : 신청 버튼 카운트 로직 개선 (btn-primary/btn-cta 포함)
+- 전체 7개 신규 템플릿 모두 HARD 위반 0건 통과 확인
+
 ## [0.7.0] : 2026-06-25
 
 ### 개편 (slide 디자인 결 시스템)

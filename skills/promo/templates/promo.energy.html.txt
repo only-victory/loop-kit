@@ -1,0 +1,221 @@
+<!doctype html>
+<!-- loop-kit / promo : 디자인 결 [에너지 임팩트]
+     정체성 : 빅 타이포·하이 콘트라스트·오렌지. 부트캠프·집중 과정·마감 긴박감 무드.
+     색은 결에 포함. em-dash 금지(콜론 사용). 외부 JS 금지. -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>프로그램명</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080808; --surface:#111111; --surface-hi:#1a1a1a;
+  --fg:#f8f8f8; --mute:#b0b0b0; --dim:#505050;
+  --orange:#ff4d00; --orange-light:#ff6b2b; --red:#e8002a;
+  --border:#1e1e1e; --border-hi:#2e2e2e;
+  --sans:'Pretendard',-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --max:800px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--bg);color:var(--mute);line-height:1.65;word-break:keep-all;}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px;}
+
+/* ── 긴박 배너 ── */
+.urgency-bar{background:var(--orange);padding:10px 0;text-align:center;}
+.urgency-bar p{font-size:14px;font-weight:700;color:#fff;letter-spacing:.04em;}
+
+/* ── 헤더·Hero ── */
+header{padding:72px 0 80px;}
+.eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:20px;}
+header h1{font-size:clamp(44px,8vw,96px);font-weight:900;color:var(--fg);line-height:.96;letter-spacing:-.03em;margin-bottom:24px;}
+header h1 .accent{color:var(--orange);}
+.hero-sub{font-size:18px;line-height:1.6;color:var(--mute);max-width:50ch;margin-bottom:36px;border-left:4px solid var(--orange);padding-left:18px;}
+.btn-primary{display:inline-block;padding:18px 44px;background:var(--orange);color:#fff;font-size:17px;font-weight:800;text-decoration:none;letter-spacing:.02em;transition:background .15s;}
+.btn-primary:hover{background:var(--orange-light);}
+.deadline{font-family:var(--mono);font-size:13px;color:var(--red);margin-top:14px;font-weight:700;}
+
+/* ── meta chips ── */
+.meta-chips{display:flex;flex-wrap:wrap;gap:8px;padding:28px 0;border-top:1px solid var(--border-hi);border-bottom:1px solid var(--border-hi);}
+.chip{font-family:var(--mono);font-size:13px;color:var(--mute);padding:7px 14px;border:1px solid var(--border-hi);}
+.chip .k{color:var(--orange);margin-right:5px;font-weight:700;}
+
+/* ── 섹션 ── */
+section{padding:64px 0;border-bottom:1px solid var(--border);}
+.section-label{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);margin-bottom:14px;}
+h2{font-size:36px;font-weight:900;color:var(--fg);line-height:1.1;letter-spacing:-.02em;margin-bottom:18px;}
+p{font-size:16px;line-height:1.75;margin-bottom:12px;}
+
+/* ── 수치 강조 ── */
+.stats-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border-hi);border:1px solid var(--border-hi);margin-top:16px;}
+.stat{padding:28px 20px;background:var(--surface);text-align:center;}
+.stat .v{font-size:52px;font-weight:900;color:var(--orange);line-height:1;letter-spacing:-.03em;}
+.stat .l{font-size:14px;color:var(--mute);margin-top:8px;}
+
+/* ── 교육 개요 표 ── */
+.info-table{width:100%;border-collapse:collapse;margin-top:8px;}
+.info-table th{width:120px;text-align:left;padding:14px 0;font-family:var(--mono);font-size:13px;color:var(--orange);border-bottom:1px solid var(--border);vertical-align:top;}
+.info-table td{padding:14px 0 14px 12px;font-size:16px;color:var(--fg);border-bottom:1px solid var(--border);}
+
+/* ── 추천 대상 ── */
+.recommend-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;}
+.rec-card{padding:20px;border:1px solid var(--border-hi);border-left:4px solid var(--orange);background:var(--surface);}
+.rec-card .title{font-size:16px;font-weight:700;color:var(--fg);margin-bottom:6px;}
+.rec-card p{font-size:14px;color:var(--mute);line-height:1.6;margin-bottom:0;}
+
+/* ── 커리큘럼 ── */
+.curri-stack{display:flex;flex-direction:column;gap:0;margin-top:16px;}
+.curri-item{display:flex;gap:20px;padding:18px 0;border-bottom:1px solid var(--border);}
+.curri-item:last-child{border-bottom:none;}
+.curri-num{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--orange);min-width:44px;line-height:1;}
+.curri-content .title{font-size:17px;font-weight:700;color:var(--fg);margin-bottom:4px;}
+.curri-content .desc{font-size:14px;color:var(--mute);}
+.curri-content .badge{display:inline-block;font-family:var(--mono);font-size:11px;color:var(--orange);border:1px solid var(--orange);padding:2px 8px;margin-top:6px;letter-spacing:.06em;}
+
+/* ── 강사 ── */
+.instructor-card{display:flex;gap:24px;padding:24px;background:var(--surface);border-left:4px solid var(--orange);margin-top:16px;}
+.instructor-img{width:72px;height:72px;background:var(--surface-hi);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;}
+.instructor-info .name{font-size:20px;font-weight:800;color:var(--fg);margin-bottom:2px;}
+.instructor-info .title{font-family:var(--mono);font-size:13px;color:var(--orange);margin-bottom:8px;}
+.instructor-info p{font-size:14px;color:var(--mute);line-height:1.7;margin-bottom:0;}
+
+/* ── 신청 CTA ── */
+.apply-box{padding:72px 0;}
+.apply-box .big{font-size:clamp(40px,7vw,80px);font-weight:900;color:var(--fg);line-height:.98;letter-spacing:-.03em;margin-bottom:16px;}
+.apply-box .big .accent{color:var(--orange);}
+.apply-box .sub{font-size:16px;color:var(--mute);margin-bottom:28px;}
+.apply-box .btn-cta{display:inline-block;padding:20px 56px;background:var(--orange);color:#fff;font-size:18px;font-weight:900;text-decoration:none;letter-spacing:.02em;}
+.apply-box .btn-cta:hover{background:var(--orange-light);}
+.apply-box .countdown{font-family:var(--mono);font-size:14px;color:var(--red);font-weight:700;margin-top:16px;}
+
+/* ── footer ── */
+footer{padding:28px 0;border-top:1px solid var(--border);}
+footer p{font-family:var(--mono);font-size:13px;color:var(--dim);line-height:1.9;}
+
+@media(max-width:640px){
+  header{padding:48px 0 56px;}
+  .stats-bar{grid-template-columns:1fr;}
+  .recommend-grid{grid-template-columns:1fr;}
+  .instructor-card{flex-direction:column;}
+  section{padding:44px 0;}
+}
+</style>
+</head>
+<body>
+
+<div class="urgency-bar">
+  <p>⚡ 신청 마감 D-00 &nbsp;·&nbsp; 남은 자리 : 00석</p>
+</div>
+
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">부트캠프 · 2026</div>
+    <h1>0주 만에<br><span class="accent">실전 레벨로.</span></h1>
+    <p class="hero-sub">Hero 부제는 "왜 이 프로그램인가"를 한 문장으로. 프로그램명을 반복하지 않는다.</p>
+    <a class="btn-primary" href="신청링크">지금 신청하기</a>
+    <p class="deadline">⚠ 신청 마감 : 2026-00-00 · 이후 신청 불가</p>
+  </header>
+
+  <!-- 수치 강조 (데이터 있을 때) -->
+  <section>
+    <div class="section-label">Track Record</div>
+    <div class="stats-bar">
+      <div class="stat"><div class="v">0,000+</div><div class="l">누적 수강생</div></div>
+      <div class="stat"><div class="v">00%</div><div class="l">수료생 만족도</div></div>
+      <div class="stat"><div class="v">00%</div><div class="l">재수강률</div></div>
+    </div>
+  </section>
+
+  <div class="meta-chips">
+    <span class="chip"><span class="k">기간</span>0주 집중</span>
+    <span class="chip"><span class="k">장소</span>온라인</span>
+    <span class="chip"><span class="k">대상</span>대상 한 줄</span>
+    <span class="chip"><span class="k">인원</span>00명</span>
+    <span class="chip"><span class="k">형식</span>실시간 강의 + 과제</span>
+  </div>
+
+  <section>
+    <div class="section-label">Program Overview</div>
+    <h2>교육 개요</h2>
+    <table class="info-table">
+      <tr><th>일정</th><td>2026-00-00 ~ 2026-00-00</td></tr>
+      <tr><th>시간</th><td>매주 OO요일 OO시 ~ OO시</td></tr>
+      <tr><th>장소</th><td>온라인 (Zoom)</td></tr>
+      <tr><th>모집 인원</th><td>00명 (선착순)</td></tr>
+      <tr><th>수강료</th><td>OO만 원</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <div class="section-label">Who Is This For</div>
+    <h2>이런 분께 추천합니다</h2>
+    <div class="recommend-grid">
+      <div class="rec-card"><div class="title">페르소나 1</div><p>이 페르소나가 가진 문제나 목표를 구체적으로.</p></div>
+      <div class="rec-card"><div class="title">페르소나 2</div><p>이 페르소나가 가진 문제나 목표를 구체적으로.</p></div>
+      <div class="rec-card"><div class="title">페르소나 3</div><p>이 페르소나가 가진 문제나 목표를 구체적으로.</p></div>
+      <div class="rec-card"><div class="title">이런 분은 아닙니다</div><p>기대치를 조율한다.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Curriculum</div>
+    <h2>커리큘럼</h2>
+    <div class="curri-stack">
+      <div class="curri-item">
+        <div class="curri-num">01</div>
+        <div class="curri-content">
+          <div class="title">1회차 제목</div>
+          <div class="desc">이 회차에서 다루는 내용을 한 줄로.</div>
+          <span class="badge">강의</span>
+        </div>
+      </div>
+      <div class="curri-item">
+        <div class="curri-num">02</div>
+        <div class="curri-content">
+          <div class="title">2회차 제목</div>
+          <div class="desc">이 회차에서 다루는 내용을 한 줄로.</div>
+          <span class="badge">실습</span>
+        </div>
+      </div>
+      <div class="curri-item">
+        <div class="curri-num">03</div>
+        <div class="curri-content">
+          <div class="title">3회차 제목</div>
+          <div class="desc">이 회차에서 다루는 내용을 한 줄로.</div>
+          <span class="badge">과제</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Instructor</div>
+    <h2>강사 소개</h2>
+    <div class="instructor-card">
+      <div class="instructor-img">👤</div>
+      <div class="instructor-info">
+        <div class="name">강사명</div>
+        <div class="title">직책 · 소속</div>
+        <p>강사 소개 2~3문장.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="apply-box">
+    <div class="big">마감 전<br><span class="accent">시작하라.</span></div>
+    <p class="sub">신청 마감 : 2026-00-00 &nbsp;·&nbsp; 선착순 00명</p>
+    <a class="btn-cta" href="신청링크">지금 신청하기</a>
+    <p class="countdown">⚠ 마감까지 D-00 · 이 가격은 이번이 마지막입니다</p>
+  </div>
+
+  <footer>
+    <p>주관 기관명 &nbsp;·&nbsp; 문의 : oo@example.com<br>© 2026 기관명. All rights reserved.</p>
+  </footer>
+
+</div>
+</body>
+</html>

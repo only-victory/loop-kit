@@ -61,10 +61,10 @@ grep -qE '(info-table|disclosure|교육 개요|교육개요|overview)' "$TARGET"
 grep -qE '(meta-row|class="chip)' "$TARGET" 2>/dev/null || \
   { echo "  ⚠ [UX : meta chips 없음 — 기간·인원 등 핵심 메타 정보 시각화 권장]"; warn=$((warn+1)); }
 
-# 신청 버튼 2회 이상 권장
-apply_btn_count=$(grep -iE 'apply-btn' "$TARGET" 2>/dev/null | wc -l | tr -d ' ')
+# 신청 버튼 2회 이상 권장 (btn-primary / btn-cta / apply-btn 모두 카운트)
+apply_btn_count=$(grep -iE '(apply-btn|btn-primary|btn-cta)' "$TARGET" 2>/dev/null | wc -l | tr -d ' ')
 if [[ "$apply_btn_count" -lt 2 ]]; then
-  echo "  ⚠ [전환 : apply-btn이 1개뿐 — Hero 직후 + 하단 최소 2회 배치 권장]"; warn=$((warn+1))
+  echo "  ⚠ [전환 : 신청 버튼이 1개뿐 — Hero 직후 + 하단 최소 2회 배치 권장]"; warn=$((warn+1))
 fi
 
 # ── 판정 ──────────────────────────────────────────────────────
