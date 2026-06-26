@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>제안서 : 패스트커머스 이탈 고객 회복</title>
+<style>
+  :root{ --ink:#1a1a1a; --sub:#5a5a5a; --line:#e5e2dc; --accent:#1f5fae; --bg:#faf9f6; --warn:#b4452f; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Pretendard','Malgun Gothic',sans-serif;color:var(--ink);background:var(--bg);line-height:1.7;padding:48px 20px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:840px;margin:0 auto}
+  .meta{font-size:13px;color:var(--sub);letter-spacing:.04em;margin-bottom:12px}
+  h1{font-size:34px;line-height:1.25;margin-bottom:10px;letter-spacing:-.01em}
+  h2{font-size:22px;margin:40px 0 14px;padding-top:18px;border-top:2px solid var(--ink)}
+  h3{font-size:16px;margin:18px 0 6px;color:var(--accent)}
+  p{margin-bottom:10px;color:#2a2a2a}
+  .proposal-summary{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:22px 24px;margin:22px 0 8px}
+  .proposal-summary .lead{font-size:18px;font-weight:600}
+  .problem-box{background:#fbf3f0;border:1px solid #e7cfc7;border-radius:8px;padding:18px 22px;margin:14px 0}
+  .problem-box li{margin:6px 0 6px 18px;color:var(--warn)}
+  .solution-card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:18px 22px;margin:12px 0}
+  .solution-card .map{font-size:13px;color:var(--sub);margin-bottom:6px}
+  .kpi-row{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+  .kpi{flex:1;min-width:150px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px;text-align:center}
+  .kpi b{display:block;font-size:30px;color:var(--accent);line-height:1.1}
+  .kpi span{font-size:13px;color:var(--sub)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+  .timeline th,.timeline td,.quote-table th,.quote-table td{border:1px solid var(--line);padding:9px 12px;text-align:left}
+  .timeline th,.quote-table th{background:#f0ede7}
+  .quote-table td.num{text-align:right;font-variant-numeric:tabular-nums}
+  .ref-box{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px 22px;margin:12px 0;font-size:14px;color:var(--sub)}
+  .cta-box{background:#1f2c3d;color:#fff;border-radius:10px;padding:24px 26px;margin:28px 0 8px}
+  .cta-box h2{border:0;color:#fff;margin:0 0 8px;padding:0}
+  .cta-box a{color:#9ec3f0}
+  .note{font-size:12px;color:var(--sub);margin-top:6px}
+  @media print{ body{background:#fff;padding:0} .wrap{max-width:none} h2{break-after:avoid} .solution-card,.kpi,.cta-box{break-inside:avoid} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="meta">제안 대상 : (주)패스트커머스 CRM팀 · 제안사 : 루프데이터 · 2026.06.26</p>
+  <h1>이탈 고객의 30%를, 6개월 안에 재구매로 되돌립니다</h1>
+
+  <div class="proposal-summary">
+    <p class="lead">패스트커머스의 휴면 고객 이탈 문제를, 행동 기반 재참여 자동화로 해결합니다.</p>
+    <p class="note">예상 효과 : 6개월 내 휴면 고객 재구매율 +30%p, 1인당 운영 공수 주 8시간 절감.</p>
+  </div>
+
+  <h2>1. 지금 겪고 계신 문제</h2>
+  <div class="problem-box">
+    <ul>
+      <li>최근 1년 휴면 고객이 전체 회원의 42%로 늘었고, 복귀 캠페인 응답률이 1%대에 머뭅니다.</li>
+      <li>재참여 메시지를 수작업으로 세그먼트·발송해 담당자 1인이 주 10시간 이상 소요됩니다.</li>
+      <li>이탈 원인 데이터가 흩어져 있어 "누구에게 무엇을 보낼지"를 근거로 정하지 못합니다.</li>
+    </ul>
+  </div>
+
+  <h2>2. 제안 솔루션 (문제와 1:1)</h2>
+  <div class="solution-card">
+    <p class="map">문제 1 : 낮은 복귀 응답률 →</p>
+    <h3>행동 기반 세그먼트 + 개인화 오퍼 엔진</h3>
+    <p>최근 조회·장바구니·구매 주기를 묶어 12개 재참여 세그먼트를 자동 생성하고, 세그먼트별 최적 오퍼를 추천합니다.</p>
+  </div>
+  <div class="solution-card">
+    <p class="map">문제 2 : 수작업 발송 공수 →</p>
+    <h3>재참여 캠페인 자동화</h3>
+    <p>트리거 기반(휴면 진입·가격 인하·재입고) 자동 발송으로 담당자의 반복 작업을 없앱니다. 주 10시간 → 2시간.</p>
+  </div>
+  <div class="solution-card">
+    <p class="map">문제 3 : 근거 없는 의사결정 →</p>
+    <h3>이탈 원인 통합 대시보드</h3>
+    <p>흩어진 로그를 한 화면에 모아 이탈 원인과 회복 기여도를 주간으로 보여줍니다.</p>
+  </div>
+
+  <h2>3. 기대 효과</h2>
+  <div class="kpi-row">
+    <div class="kpi"><b>+30%p</b><span>휴면 재구매율(6개월)</span></div>
+    <div class="kpi"><b>-80%</b><span>발송 운영 공수</span></div>
+    <div class="kpi"><b>3.2배</b><span>예상 캠페인 ROI</span></div>
+  </div>
+  <p class="note">근거 : 유사 규모 커머스 3개사 도입 후 평균치. 실제 효과는 데이터 품질에 따라 달라질 수 있습니다.</p>
+
+  <h2>4. 추진 일정</h2>
+  <table class="timeline">
+    <tr><th>단계</th><th>기간</th><th>주요 산출물</th></tr>
+    <tr><td>1. 데이터 진단·연동</td><td>1~3주차</td><td>데이터 연동, 세그먼트 설계서</td></tr>
+    <tr><td>2. 엔진·자동화 구축</td><td>4~8주차</td><td>오퍼 엔진, 캠페인 자동화</td></tr>
+    <tr><td>3. 파일럿·최적화</td><td>9~12주차</td><td>대시보드, 성과 리포트</td></tr>
+  </table>
+
+  <h2>5. 투자 견적</h2>
+  <table class="quote-table">
+    <tr><th>항목</th><th>범위</th><th class="num">금액(VAT 별도)</th></tr>
+    <tr><td>구축(1회성)</td><td>연동·엔진·대시보드</td><td class="num">38,000,000원</td></tr>
+    <tr><td>운영(월)</td><td>호스팅·최적화·리포트</td><td class="num">2,500,000원</td></tr>
+  </table>
+  <p class="note">전제 : 고객 데이터 API 제공, 파일럿 1개 채널 기준. 채널 추가 시 별도 협의.</p>
+
+  <h2>6. 레퍼런스</h2>
+  <div class="ref-box">
+    유사 커머스 3개사 재참여 자동화 구축(2024~2025), 평균 휴면 재구매율 +27%p. 상세 사례는 별도 제공 가능합니다.
+  </div>
+
+  <div class="cta-box">
+    <h2>다음 단계</h2>
+    <p>30분 진단 미팅에서 귀사 데이터로 예상 효과를 함께 추정해 드립니다.</p>
+    <p>담당 : 루프데이터 김제안 · loop@example.com · 02-000-0000</p>
+    <p>회신 희망일 : 2026년 7월 3일</p>
+  </div>
+</div>
+</body>
+</html>
