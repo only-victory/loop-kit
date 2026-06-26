@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# loop-kit / loop : 루프 정의 검증 게이트
-# 사용법 : bash verify.sh <루프-정의-md>
+# loop-kit / flow : 플로우 정의 검증 게이트
+# 사용법 : bash verify.sh <플로우-정의-md>
 # 통과   : exit 0 (HARD 위반 0건) / 실패 : exit 1 / 사용법오류 : exit 2
 #
-# 검사 대상은 루프 "정의" 문서다 (reference/<루프>.md). 각 단계가 계약을 다 명시했는지,
-# 사람 체크포인트가 있는지, 미작성 칸이 없는지를 본다. "검증 없으면 예쁜 쓰레기"를 루프에도 적용.
+# 검사 대상은 플로우 "정의" 문서다 (reference/<플로우>.md). 각 단계가 계약을 다 명시했는지,
+# 사람 체크포인트가 있는지, 미작성 칸이 없는지를 본다. "검증 없으면 예쁜 쓰레기"를 플로우에도 적용.
 set -uo pipefail
 
 TARGET="${1:-}"
 if [[ -z "$TARGET" || ! -f "$TARGET" ]]; then
-  echo "사용법 : bash verify.sh <루프-정의-md>" >&2
+  echo "사용법 : bash verify.sh <플로우-정의-md>" >&2
   exit 2
 fi
 
@@ -90,9 +90,9 @@ grep -qF "어댑터" "$TARGET" || \
 
 # ── 판정 ──────────────────────────────────────────────────────
 echo ""
-echo "루프 단계 : ${stages:-0}개"
+echo "플로우 단계 : ${stages:-0}개"
 if [[ "$fail" -gt 0 ]]; then
-  echo "✗ HARD 위반 ${fail}건 (경고 ${warn}건) : loop 미통과"; exit 1
+  echo "✗ HARD 위반 ${fail}건 (경고 ${warn}건) : flow 미통과"; exit 1
 fi
-echo "✓ HARD 위반 0건 (경고 ${warn}건) : loop 통과"
+echo "✓ HARD 위반 0건 (경고 ${warn}건) : flow 통과"
 exit 0

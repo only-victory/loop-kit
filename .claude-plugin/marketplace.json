@@ -9,8 +9,8 @@
     {
       "name": "loop-kit",
       "source": ".",
-      "description": "검증 게이트가 내장된 스킬 11종 + 스킬을 엮는 오케스트레이션 스킬 loop. 의존성 제로, Claude만으로 동작.",
-      "version": "0.10.0",
+      "description": "검증 게이트가 내장된 스킬 11종 + 스킬을 엮는 오케스트레이션 스킬 flow. 의존성 제로, Claude만으로 동작.",
+      "version": "0.11.0",
       "author": { "name": "only-victory" }
     }
   ]
